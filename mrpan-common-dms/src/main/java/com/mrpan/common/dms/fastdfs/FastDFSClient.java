@@ -1,6 +1,5 @@
 package com.mrpan.common.dms.fastdfs;
 
-import com.apple.eio.FileManager;
 import com.mrpan.common.dms.utils.NameValuePair;
 
 import org.apache.commons.lang.StringUtils;

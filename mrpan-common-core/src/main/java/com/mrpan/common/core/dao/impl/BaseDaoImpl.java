@@ -1,6 +1,6 @@
 package com.mrpan.common.core.dao.impl;
 
-import com.mrpan.common.core.IBaseDao;
+import com.mrpan.common.core.dao.IBaseDao;
 import com.mrpan.common.core.utils.Pager;
 import com.mrpan.common.core.utils.SystemContext;
 
