@@ -27,3 +27,7 @@ target/
 # system ignore
 .DS_Store
 Thumbs.db
+
+# user ignore
+mrpan-api-*/
+mrpan-provider-*/
