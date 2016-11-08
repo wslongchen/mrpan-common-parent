@@ -10,8 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>mrpan-common-core</module>
-        <module>mrpan-api-user</module>
-        <module>mrpan-provider-user</module>
+        <!--<module>mrpan-api-user</module>
+        <module>mrpan-provider-user</module>-->
         <module>mrpan-common-config</module>
         <module>mrpan-moudle-wechat</module>
         <module>mrpan-moudle-quartz</module>
