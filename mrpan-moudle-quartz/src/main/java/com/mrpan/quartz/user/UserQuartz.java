@@ -1,6 +1,5 @@
 package com.mrpan.quartz.user;
 
-import com.mrpan.api.user.service.UserService;
 import com.mrpan.quartz.base.QuartzBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
