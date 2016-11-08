@@ -15,8 +15,6 @@ import java.util.Properties;
 public class UserQuartz extends QuartzBase {
     @Autowired
     private Properties propertiesBean;
-    @Autowired
-    private UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserQuartz.class);
 
