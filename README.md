@@ -1,21 +1,33 @@
-# mrpan-common
-一条后台狗的辛酸历程。（微笑脸）
+[![Build Status](https://travis-ci.org/wslongchen/mrpan-common-parent.svg?branch=master)](https://travis-ci.org/wslongchen/mrpan-common-parent) 
 
 **********************************************************
-#### 简介
+#### Introduction
+An open source distributed framework, can help to quickly build a distributed micro service project, based on zookeeper + Dubbo, hoping to do more and more perfect.
 
-+ 一个分布式微服务模式整体框架
++ micro service framework 
 + zookeeper + dubbo + fastdfs
 
 
 **********************************************************
-#### 日志
+#### Development Log
 
-+ 搭建基本框架完成，采用dubbo+zookeeper分布式框架，并简单接入微信模块。  --2016-11-05
-+ 增加spring定时服务,增加分布式文件存储fastdfs模块。  --2016-11-06
-
++ Build a basic framework to complete the use of dubbo+zookeeper distributed framework, and a simple access to WeChat modules.  --2016-11-05
++ Add spring timer service, increase the fastdfs module of the distributed file storage.  --2016-11-06
++ Automated Deployment build hosted build completed, and re upload the project.
+   --2016-11-07
 
 **********************************************************
-###### 更新于2016/11/06
+#### Remarks
++ Need to use the objdc place, need to refer to the jar Oracle package.
+``` maven   
+<dependency>
+   <groupId>ojdbc</groupId>
+   <artifactId>ojdbc</artifactId>
+   <version>6</version>
+</dependency>
+```
+    
+**********************************************************
+###### Updated 2016/11/08
 
 &copy; 2016 MrPan
