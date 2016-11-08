@@ -28,6 +28,12 @@ An open source distributed framework, can help to quickly build a distributed mi
 ```
     
 **********************************************************
+#### Thanks
++ WeChat module support By 老鞠([door](https://github.com/UserAndy/wechatutils))
++ Dubbo By Alibaba([door](https://github.com/alibaba/dubbo))
+
+
+**********************************************************
 ###### Updated 2016/11/08
 
 &copy; 2016 MrPan
