@@ -16,6 +16,7 @@
         <module>mrpan-moudle-wechat</module>
         <module>mrpan-moudle-quartz</module>
         <module>mrpan-common-dms</module>
+        <module>mrpan-web-manage</module>
         <module>mrpan-web-vpsplatform</module>
     </modules>
     <dependencies>
