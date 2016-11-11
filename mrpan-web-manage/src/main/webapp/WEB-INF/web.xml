@@ -21,7 +21,7 @@
 	<!-- logback 监听器 -->
 	<context-param>
 		<param-name>logback</param-name>
-		<param-value>classpath*:logback.xml</param-value>
+		<param-value>classpath:logback.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
@@ -46,11 +46,13 @@
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
+
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath*:spring-servlet-manage.xml</param-value>
 		</init-param>
+		<load-on-startup>1</load-on-startup>
+
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>

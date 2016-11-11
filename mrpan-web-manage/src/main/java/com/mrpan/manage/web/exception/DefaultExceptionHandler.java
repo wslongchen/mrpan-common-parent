@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.ModelAndView;
-
 /**
- * Created by mrpan on 2016/11/8.
+ * Created by mrpan on 2016/11/3.
  */
 public class DefaultExceptionHandler {
 

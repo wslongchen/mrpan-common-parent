@@ -1,1 +1,1 @@
-annFilter=com.mrpan.provider.user.AuthorityFilter
+annFilter=AuthorityFilter

@@ -16,7 +16,7 @@
 	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
 	<dubbo:consumer timeout="${dubbo.consumer.timeout}" />
 	
-	<dubbo:reference id="userService" interface="com.mrpan.api.user.service.UserService" />
+	<dubbo:reference id="userService" interface="com.mrpan.user.service.UserService" />
 	
 	<dubbo:protocol name="dubbo" payload="16777216" />
 </beans>
