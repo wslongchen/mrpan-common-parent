@@ -24,8 +24,8 @@ public class LuncherUserProviderTest {
 
             UserService userService = (UserService)context.getBean("userService");
             //userService.addUser(u);
-            User user=userService.findUser("longchen",null);
-            log.info("sssssssssssssssssssssssss");
+            User user=userService.findUser("admin",null);
+           // log.info("sssssssssssssssssssssssss");
             System.out.println();
         } catch (Exception e) {
             log.error("== LuncherUserProviderTest context start error:",e);

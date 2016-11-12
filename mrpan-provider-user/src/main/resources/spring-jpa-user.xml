@@ -24,7 +24,7 @@
 		<!-- 指定Entity实体类包路径 -->
 		<property name="packagesToScan">
 			<array>
-				<value>com.mrpan.api.user.bean</value>
+				<value>com.mrpan.user.bean</value>
 			</array>
 		</property>
 		<!-- 指定JPA属性；如Hibernate中指定是否显示SQL的是否显示、方言等 -->
