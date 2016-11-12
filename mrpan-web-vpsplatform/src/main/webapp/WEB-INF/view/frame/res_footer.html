@@ -1,0 +1,61 @@
+<html lang="zh_CN">
+<meta charset="utf-8">
+<script src="${res}/common/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript">
+	var arr=new Array("%3Cscript%20src%3D%22/shbyagent/resources/common/js/bootstrap.min.js%3Fv%3D3.3.5%22%3E%3C/script%3E"//bootstrap.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/metisMenu/jquery.metisMenu.js%22%3E%3C/script%3E"//jquery.metisMenu.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/slimscroll/jquery.slimscroll.min.js%22%3E%3C/script%3E"//jquery.slimscroll.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/layer/layer.min.js%22%3E%3C/script%3E"//layer.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/hplus.min.js%3Fv%3D4.0.0%22%3E%3C/script%3E"//plus.min.js?v=4.0.0
+						,"%3Cscript%20type%3D%22text/javascript%22%20src%3D%22/shbyagent/resources/common/js/contabs.min.js%22%3E%3C/script%3E"//plus.min.js?v=4.0.0
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/pace/pace.min.js%22%3E%3C/script%3E"//pace.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/content.min.js%3Fv%3D1.0.0%22%3E%3C/script%3E"//content.min.js?v=1.0.0
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/bootstrap-table/bootstrap-table.min.js%22%3E%3C/script%3E"//bootstrap-table.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js%22%3E%3C/script%3E"//bootstrap-table-mobile.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js%22%3E%3C/script%3E"//bootstrap-table-zh-CN.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/sweetalert/sweetalert.min.js%22%3E%3C/script%3E"//sweetalert.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/layer/laydate/laydate.js%22%3E%3C/script%3E"//laydate.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/plugins/artDialog/js/dialog-min.js%22%3E%3C/script%3E"//dialog-min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/plugins/artDialog/js/dialog-plus-min.js%22%3E%3C/script%3E"//dialog-plus-min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/core/js/hplus-utils.js%22%3E%3C/script%3E"//hplus-utils.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/plugins/fileInput/js/fileinput.min.js%22%3E%3C/script%3E"//fileinput.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/plugins/fileInput/js/fileinput_locale_zh.js%22%3E%3C/script%3E"//fileinput_locale_zh.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/plugins/peity/jquery.peity.min.js%22%3E%3C/script%3E"//jquery.peity.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/plugins/fancybox/jquery.fancybox.js%22%3E%3C/script%3E"//jquery.peity.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/staps/jquery.steps.min.js%22%3E%3C/script%3E"//jquery.steps.min.js
+						,"%3Cscript%20src%3D%22/shbyagent/resources/common/js/plugins/blueimp/jquery.blueimp-gallery.min.js%22%3E%3C/script%3E"//jquery.blueimp-gallery.min.js
+						
+	
+	);
+	
+	for (var i=0;i<arr.length;i++){
+		document.write(unescape(arr[i].toString()));
+	}
+	
+	
+</script>
+<!-- <script src="${res}/common/js/demo/bootstrap-table-demo.min.js"></script> -->
+
+<!-- <script src="${res}/common/js/plugins/webuploader/webuploader.min.js"></script> -->
+<!-- <script src="${res}/core/js/web-uploader-utils.js"></script> -->
+
+<!-- 图放大 jq jquery.blueimp-gallery.min.js -->
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+
+<script type="text/javascript">
+var index = parent.layer.getFrameIndex(window.name); 
+$('#cancel').click(function () {
+    swal({
+        title: "您确定要取消这条信息吗",
+        text: "取消后将无法恢复，请谨慎操作！",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确认",
+        closeOnConfirm: false
+    }, function () {
+        swal("删除成功！", "您已经永久取消了这条信息。", "success");
+        parent.layer.close(index);
+    });
+});
+</script>

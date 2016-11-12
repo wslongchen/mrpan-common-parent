@@ -27,6 +27,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/login= anon
+				/authImage = anon
 				/unauth = anon
 				/logout = anon
 				/resources/** = anon
