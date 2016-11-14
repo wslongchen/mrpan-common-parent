@@ -40,7 +40,7 @@
 		</property>
 	</bean>
 	
-	<jpa:repositories base-package="com.mrpan.api.user.service"
+	<jpa:repositories base-package="com.mrpan.user.service"
 		transaction-manager-ref="transactionManager"
 		entity-manager-factory-ref="entityManagerFactory" />
 	<!-- Hibernate对Jpa的实现 -->
@@ -110,7 +110,7 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut id="allManagerMethod" expression="execution(* com.mrpan.api.user.service.*.*(..))" />
+		<aop:pointcut id="allManagerMethod" expression="execution(* com.mrpan.user.service.*.*(..))" />
 		<aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice" />
 	</aop:config>
 

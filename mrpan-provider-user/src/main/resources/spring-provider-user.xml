@@ -14,8 +14,6 @@
 <!-- 	<dubbo:provider timeout="${dubbo.provider.timeout}" filter="annFilter" /> -->
 	<!-- 对外暴露的接口 -->
 	<!-- 1.系统角色接口 -->
-	<dubbo:service interface="com.mrpan.user.service.UserService" ref="userService" />
-
-	
-
+	<dubbo:service interface="com.mrpan.user.service.Ann_UserService" ref="ann_UserService" />
+	<dubbo:service interface="com.mrpan.user.service.Ann_MenuService" ref="ann_MenuService" />
 </beans>
