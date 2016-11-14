@@ -1,8 +1,8 @@
 package com.mrpan.user.service.impl;
 
-import com.mrpan.user.bean.User;
-import com.mrpan.user.dao.UserDao;
-import com.mrpan.user.service.UserService;
+import com.mrpan.user.bean.Ann_User;
+import com.mrpan.user.dao.Ann_UserDao;
+import com.mrpan.user.service.Ann_UserService;
 import com.mrpan.common.core.utils.FourObject;
 import com.mrpan.common.core.utils.QueryKit;
 import org.apache.commons.lang.StringUtils;
@@ -17,24 +17,24 @@ import java.util.List;
 /**
  * Created by mrpan on 2016/11/3.
  */
-@Component("userService")
-public class UserServiceImpl implements UserService {
+@Component("ann_UserService")
+public class Ann_UserServiceImpl implements Ann_UserService {
     private static final Logger logger = LoggerFactory
-            .getLogger(UserServiceImpl.class);
+            .getLogger(Ann_UserServiceImpl.class);
 
     @Autowired
-    private UserDao userDao;
+    private Ann_UserDao userDao;
 
-    public User findUser(String name, String pwd) {
+    public Ann_User findUser(String name, String pwd) {
         try {
             List<FourObject> where=new ArrayList<FourObject>();
-            where.add(new FourObject("name",name));
+            where.add(new FourObject("userName",name));
             if(StringUtils.isNotBlank(pwd))
                 where.add(new FourObject("password",pwd));
             String jpql= QueryKit.createQuerySqlByFour(where);
-            List<User> users=this.userDao.listUser(jpql);
-            if(users !=null && users.size()>0){
-                return users.get(0);
+            List<Ann_User> annUsers =this.userDao.listUser(jpql);
+            if(annUsers !=null && annUsers.size()>0){
+                return annUsers.get(0);
             }
         } catch (Exception e) {
             logger.error(
@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public User addUser(User user){
-        User u=this.userDao.add(user);
+    public Ann_User addUser(Ann_User annUser){
+        Ann_User u=this.userDao.add(annUser);
         return u;
     }
 
