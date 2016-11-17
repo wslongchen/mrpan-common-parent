@@ -28,15 +28,6 @@ public class Ann_MenuServiceImpl implements Ann_MenuService {
     @Autowired
     private Ann_UserMenuDao ann_UserMenuDao;
 
-    public List<Ann_Menu> lazyLoadUserMenu(int parentId) {
-        List<Ann_Menu> list = new ArrayList<Ann_Menu>();
-        try {
-            list = this.ann_MenuDao.findMenu(parentId);
-        } catch (Exception e) {
-            logger.error("failed to lazyLoadUserMenu ==" + parentId + e.getMessage(), e);
-        }
-        return list;
-    }
 
     public AnnMenuTree getMenuTree(int userId) {
         AnnMenuTree menuTree = new AnnMenuTree();
@@ -100,5 +91,19 @@ public class Ann_MenuServiceImpl implements Ann_MenuService {
             // root.setChilds(subMenuTrees);
         }
         root.setChilds(subMenuTrees);
+    }
+
+    public List<Ann_Menu> lazyLoadUserMenu(Integer parentId) {
+        List<Ann_Menu> list = new ArrayList<Ann_Menu>();
+        try {
+            list = this.ann_MenuDao.findMenu(parentId);
+        } catch (Exception e) {
+            logger.error("failed to lazyLoadUserMenu ==" + parentId + e.getMessage(), e);
+        }
+        return list;
+    }
+
+    public AnnMenuTree getMenuTree(Integer userId) {
+        return null;
     }
 }

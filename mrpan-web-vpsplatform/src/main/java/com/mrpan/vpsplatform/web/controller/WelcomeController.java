@@ -1,6 +1,6 @@
 package com.mrpan.vpsplatform.web.controller;
 
-import com.mrpan.user.bean.User;
+import com.mrpan.user.bean.Ann_User;
 import com.mrpan.vpsplatform.web.BaseController;
 import com.mrpan.vpsplatform.web.WebConstant;
 import org.apache.shiro.SecurityUtils;
@@ -27,7 +27,7 @@ public class WelcomeController extends BaseController {
     @RequestMapping(value = "/main")
     public String main(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
         // TODO
-        User user = (User) SecurityUtils.getSubject().getSession().getAttribute(WebConstant.LOGIN_USER);
+        Ann_User user = (Ann_User) SecurityUtils.getSubject().getSession().getAttribute(WebConstant.LOGIN_USER);
         if (user == null) {// 如果用户
         }
 

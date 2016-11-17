@@ -9,8 +9,8 @@ import java.util.List;
  * Created by mrpan on 2016/11/14.
  */
 public interface Ann_MenuService {
-    public List<Ann_Menu> lazyLoadUserMenu(In parentId);
+    public List<Ann_Menu> lazyLoadUserMenu(Integer parentId);
 
-    public AnnMenuTree getMenuTree(int userId);
+    public AnnMenuTree getMenuTree(Integer userId);
 }
 

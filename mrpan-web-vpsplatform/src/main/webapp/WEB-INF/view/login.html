@@ -1,73 +1,61 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html >
 <head>
-	<title>Login</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<!-- Bootstrap Core CSS -->
-	<link href="${res}/css/bootstrap.css" rel='stylesheet' type='text/css' />
-	<!-- Custom CSS -->
-	<link href="${res}/css/style.css" rel='stylesheet' type='text/css' />
-	<!-- font CSS -->
-	<link rel="icon" href="${res}/favicon.ico" type="image/x-icon" >
-	<!-- font-awesome icons -->
-	<link href="${res}/css/font-awesome.css" rel="stylesheet">
-	<!-- //font-awesome icons -->
-	<!--webfonts-->
-	<link href='http://fonts.useso.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-	<!--//webfonts-->
-	<!-- js -->
-	<script src="${res}/js/jquery-1.11.1.min.js"></script>
-	<!-- //js -->
+	<meta charset="UTF-8">
+	<title>VPS平台</title>
+
+	<link rel="shortcut icon" href="favicon.ico">
+	<!-- <base target="_blank"> -->
+	<script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+	<link rel="stylesheet" href="${res}/core/css/login/style.css">
+	<link rel="stylesheet" href="${res}/core/css/login/normalize.css">
+
+	<script src="${res}/core/js/crma/login/prefixfree.min.js"></script>
 </head>
-<body class="login-bg">
-<div class="login-body">
-	<div class="login-heading">
-		<h1>Login</h1>
-	</div>
+
+
+<body>
 	<div class="login-info">
-		<form>
-			<input type="text" class="user" name="email" placeholder="Email" required="">
-			<input type="password" name="password" class="lock" placeholder="Password">
-			<div class="forgot-top-grids">
-				<div class="forgot-grid">
-					<ul>
-						<li>
-							<input type="checkbox" id="brand1" value="">
-							<label for="brand1"><span></span>Remember me</label>
-						</li>
-					</ul>
+		<form  action="${base}/login" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post">
+			<div class="login wrap">
+				<div class="logo">
+					<img src="${res}/core/img/login/logo.png" width="40%">
 				</div>
-				<div class="forgot">
-					<a href="#">Forgot password?</a>
-				</div>
-				<div class="clearfix"> </div>
+				<input type="username" class="form-control uname" id="username" name="username" placeholder="用户名">
+				<!--<input type="username" class="form-control uname" id="username" placeholder="用户名" />-->
+				<!--<input type="password" class="form-control pword m-b" id="password" placeholder="密码" />-->
+				<input type="password" name="password" id="password" class="form-control pword m-b" placeholder="密码">
+				<input type="button" value="忘了密码？" onclick="alert('暂时没开放此功能!')" />
+				<input type="submit" value="登录"  id="logining" />
+
 			</div>
-			<input type="submit" name="Sign In" value="Login">
-			<div class="signup-text">
-				<a href="signup.html">Don't have an account? Create one now</a>
-			</div>
-			<hr>
-			<h2>or login with</h2>
-			<div class="login-icons">
-				<ul>
-					<li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
-					<li><a href="#" class="google"><i class="fa fa-google-plus"></i></a></li>
-					<li><a href="#" class="dribbble"><i class="fa fa-dribbble"></i></a></li>
-				</ul>
-			</div>
+			<input type="hidden" class="form-control uname" id="usernameing"  name="usernameing"/>
+			<input type="hidden" class="form-control pword m-b" id="passwording" name="usernameing"/>
+
 		</form>
 	</div>
-</div>
-<div class="go-back login-go-back">
-	<a href="index.html">Go To Home</a>
-</div>
-<div class="copyright login-copyright">
-	<p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://www.17sucai.com/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
-</div>
 </body>
+
+
+
+<script src="${res}/common/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript">
+	window.onload= function(){
+		$(document.body).append(unescape('%3Cscript%20type%3D%22text/javascript%22%20src%3D%22/vpsplatform/resources/core/js/jquery.base64.js%22%3E%3C/script%3E'));
+	}
+
+	$("#logining").on("click", function() {
+		var indexfor = unescape('%24.base64.atob%28%22JC5iYXNlNjQudXRmOGVuY29kZSA9IHRydWU7dXNlcm5hbWVpbmcudmFsKCQuYmFzZTY0LmJ0b2EodXNlcm5hbWUudmFsKCkpKTtwYXNzd29yZGluZy52YWwoJC5iYXNlNjQuYnRvYShwYXNzd29yZC52YWwoKSkpOw%3D%3D%22%2C%20true%29%3B');
+		var varing = eval(indexfor);
+
+		var username = $("#username"),
+				password = $("#password"); // 编码
+		var usernameing =  $("#usernameing"),
+				passwording = $("#passwording");
+		eval(varing);
+	});
+</script>
+
+
 </html>

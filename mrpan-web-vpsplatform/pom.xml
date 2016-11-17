@@ -14,28 +14,31 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.mrpan</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>mrpan-api-user</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.mrpan</groupId>
-            <artifactId>mrpan-provider-user</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mrpan</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>mrpan-common-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.mrpan</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>mrpan-common-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>mrpan-provider-user</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
-        <finalName>mrpan-web-manage</finalName>
+        <finalName>mrpan-web-vpsplatform</finalName>
         <resources>
             <resource>
                 <targetPath>${project.build.directory}/classes</targetPath>
@@ -57,11 +60,11 @@
                 <configuration>
                     <scanIntervalSeconds>120</scanIntervalSeconds>
                     <webApp>
-                        <contextPath>/annmanage</contextPath>
+                        <contextPath>/vpsplatform</contextPath>
                     </webApp>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>80</port>
+                            <port>8081</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>

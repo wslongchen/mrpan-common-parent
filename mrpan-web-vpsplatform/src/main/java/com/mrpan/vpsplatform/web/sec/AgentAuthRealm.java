@@ -2,8 +2,8 @@ package com.mrpan.vpsplatform.web.sec;
 
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
-import com.mrpan.user.bean.User;
-import com.mrpan.user.service.UserService;
+import com.mrpan.user.bean.Ann_User;
+import com.mrpan.user.service.Ann_UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -18,7 +18,7 @@ public class AgentAuthRealm extends AuthorizingRealm {
 	private static final Logger logger = LoggerFactory.getLogger(AgentAuthRealm.class);
 
 	@Autowired
-	private UserService userService;
+	private Ann_UserService ann_UserService;
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -26,7 +26,7 @@ public class AgentAuthRealm extends AuthorizingRealm {
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		// 本系统采用代理商或者商户的工号登录
 		try {
-			User user = this.userService.findUser(userName, "");
+			Ann_User user = this.ann_UserService.findUser(userName, "");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,13 +46,13 @@ public class AgentAuthRealm extends AuthorizingRealm {
 		String userName = usernamePasswordToken.getUsername();
 		// User user = userService.getByName(username);
 		try {
-			User user = this.userService.findUser(userName,null);
+			Ann_User user = this.ann_UserService.findUser(userName,null);
 			if (user != null) {
 				System.out.println("===============================" + user.getPassword());
 
 				// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
 				SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-						user.getName(),
+						user.getUserName(),
 						user.getPassword(),
 						// MyMD5Util.getEncryptedPwd(user.getPassword()),
 						// ByteSource.Util.bytes(user.getSalt()),// salt

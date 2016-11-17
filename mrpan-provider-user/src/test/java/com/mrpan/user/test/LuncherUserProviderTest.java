@@ -1,7 +1,9 @@
 package com.mrpan.user.test;
 
-import com.mrpan.user.bean.User;
-import com.mrpan.user.service.UserService;
+import com.mrpan.common.core.utils.MyMD5Util;
+import com.mrpan.user.bean.Ann_Menu;
+import com.mrpan.user.bean.Ann_User;
+import com.mrpan.user.service.Ann_UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,13 +20,13 @@ public class LuncherUserProviderTest {
             String[] names = context.getBeanDefinitionNames();
             for (String string : names)
                 System.out.print(string + ",");
-            User u=new User();
-            u.setName("longchen");
-            u.setPassword("123");
-
-            UserService userService = (UserService)context.getBean("userService");
-            //userService.addUser(u);
-            User user=userService.findUser("admin",null);
+            Ann_User u=new Ann_User();
+            u.setUserName("longchen");
+            u.setPassword(MyMD5Util.getEncryptedPwd("123456"));
+            u.setAuditStatus("1");
+            Ann_UserService userService = (Ann_UserService)context.getBean("ann_UserService");
+            userService.addUser(u);
+            //User user=userService.findUser("admin",null);
            // log.info("sssssssssssssssssssssssss");
             System.out.println();
         } catch (Exception e) {

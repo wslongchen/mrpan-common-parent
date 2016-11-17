@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by mrpan on 2016/11/3.
  */
 @Entity
-@Table(name="Ann_User")
+@Table(name="ann_user")
 public class Ann_User implements Serializable {
     @Id
     @Column(name = "UserId")
@@ -36,7 +36,7 @@ public class Ann_User implements Serializable {
     private Date createDate;
     @Column(name ="FirstVisit")
     private Date firstVisit;
-    @Column(name = "LastLogonDate")
+    @Column(name = "LastLogondate")
     private Date lastLogonDate;
     @Column(name ="LoginCount")
     private Integer loginCount;
@@ -46,7 +46,7 @@ public class Ann_User implements Serializable {
     private Integer isVisible;
     @Column(name="UserOnline")
     private  Integer userOnline;
-    @Column(name = "LastLogonIP")
+    @Column(name = "LastLogonip")
     private String lastLogonIP;
     @Column(name ="MacAddress")
     private String macAddress = "";

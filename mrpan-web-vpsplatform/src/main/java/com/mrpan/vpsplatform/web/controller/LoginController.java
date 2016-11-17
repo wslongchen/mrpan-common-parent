@@ -1,7 +1,7 @@
 package com.mrpan.vpsplatform.web.controller;
 
-import com.mrpan.user.bean.User;
-import com.mrpan.user.service.UserService;
+import com.mrpan.user.bean.Ann_User;
+import com.mrpan.user.service.Ann_UserService;
 import com.mrpan.vpsplatform.web.BaseController;
 import com.mrpan.vpsplatform.web.WebConstant;
 import org.apache.shiro.SecurityUtils;
@@ -26,7 +26,7 @@ public class LoginController extends BaseController {
 			.getLogger(LoginController.class);
 
 	@Autowired
-	UserService userService;
+	Ann_UserService ann_UserService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -42,7 +42,7 @@ public class LoginController extends BaseController {
 		token.setRememberMe(true);
 		try {
 			subject.login(token);
-			User user = this.userService
+			Ann_User user = this.ann_UserService
 					.findUser(username,"");
 			if (user == null) {
 				return "login";

@@ -14,9 +14,10 @@
 	<context:component-scan base-package="com.mrpan.vpsplatform.web.controller" />
 
 
-	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/" />
-	<mvc:resources mapping="/resources/css/**" location="/WEB-INF/resources/css/" />
-	<!--<mvc:resources mapping="/resources/core/**" location="/WEB-INF/resources/core/" />-->
+	<mvc:resources mapping="/resources/common/**" location="/WEB-INF/resources/common/" />
+	<mvc:resources mapping="/resources/plugins/**" location="/WEB-INF/resources/plugins/" />
+	<mvc:resources mapping="/resources/core/**" location="/WEB-INF/resources/core/" />
+	<!--<mvc:resources mapping="/hplus/**" location="/hplus/" />-->
 
 	<mvc:interceptors>
 		<bean class="com.mrpan.vpsplatform.web.interceptor.SystemInterceptor" />
@@ -53,13 +54,13 @@
 		</property>
 		<property name="freemarkerVariables">
 			<map>
-				<!-- 				<entry key="menuTree" value-ref="menuTreeDirective" />
-                                <entry key="semaOperator" value-ref="operatorDirective" />
-                                <entry key="provinceLst" value-ref="provinceDirective"/>
-                                <entry key="cityLst" value-ref="cityDirective"/>
-                                <entry key="districtLst" value-ref="districtDirective"/>
-                                <entry key="bankLst" value-ref="bankDirective"/>
-                                <entry key="tradeCategory" value-ref="tradeCategoryDirective"/> -->
+							<entry key="menuTree" value-ref="menuTreeDirective" />
+				<!-- 	  <entry key="semaOperator" value-ref="operatorDirective" />
+                  <entry key="provinceLst" value-ref="provinceDirective"/>
+                  <entry key="cityLst" value-ref="cityDirective"/>
+                  <entry key="districtLst" value-ref="districtDirective"/>
+                  <entry key="bankLst" value-ref="bankDirective"/>
+                  <entry key="tradeCategory" value-ref="tradeCategoryDirective"/> -->
 			</map>
 		</property>
 	</bean>
@@ -76,8 +77,8 @@
 
 	<!-- 自定义标签 -->
 
-	<!-- <bean id="menuTreeDirective" class="com.shby.manage.web.directive.MenuDirective" />
-	<bean id="operatorDirective" class="com.shby.manage.web.directive.SemaOperatorDirective" />
+	<bean id="menuTreeDirective" class="com.mrpan.vpsplatform.web.directive.MenuDirective" />
+	<!-- <bean id="operatorDirective" class="com.shby.manage.web.directive.SemaOperatorDirective" />
 	 <bean id="provinceDirective" class="com.shby.manage.web.directive.ProvinceDirective"/>
     <bean id="cityDirective" class="com.shby.manage.web.directive.CityDirective"/>
     <bean id="districtDirective" class="com.shby.manage.web.directive.DistrictDirective"/>

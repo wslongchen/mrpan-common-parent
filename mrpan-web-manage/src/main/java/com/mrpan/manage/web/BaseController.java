@@ -1,6 +1,6 @@
 package com.mrpan.manage.web;
 
-import com.mrpan.user.bean.User;
+import com.mrpan.user.bean.Ann_User;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
  * Created by mrpan on 2016/11/3.
  */
 public class BaseController {
-	public User getLoginUser(HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute(
+	public Ann_User getLoginUser(HttpServletRequest request) {
+		Ann_User user = (Ann_User) request.getSession().getAttribute(
 				WebConstant.LOGIN_USER);
 		return user;
 	}

@@ -16,7 +16,7 @@
 
 	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/" />
 	<mvc:resources mapping="/resources/css/**" location="/WEB-INF/resources/css/" />
-	<mvc:resources mapping="/resources/core/**" location="/WEB-INF/resources/core/" />
+	<!--<mvc:resources mapping="/resources/core/**" location="/WEB-INF/resources/core/" />-->
 
 	<mvc:interceptors>
 		<bean class="com.mrpan.manage.web.interceptor.SystemInterceptor" />

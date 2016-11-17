@@ -23,7 +23,7 @@
 	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 		<level>INFO</level>
 	</filter>
-	<root level="error">
+	<root level="INFO">
 		<appender-ref ref="myconsole" />
 		<appender-ref ref="myfile" />
 	</root>

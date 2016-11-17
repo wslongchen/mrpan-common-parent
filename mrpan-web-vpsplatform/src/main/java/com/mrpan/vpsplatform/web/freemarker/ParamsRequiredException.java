@@ -3,7 +3,6 @@ package com.mrpan.vpsplatform.web.freemarker;
 /**
  * Created by mrpan on 2016/11/14.
  */
-
 import freemarker.template.TemplateModelException;
 
 /**
