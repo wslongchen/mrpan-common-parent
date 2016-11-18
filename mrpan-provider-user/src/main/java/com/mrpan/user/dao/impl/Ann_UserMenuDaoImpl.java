@@ -19,7 +19,7 @@ public class Ann_UserMenuDaoImpl extends BaseDaoImpl<Ann_UserMenu> implements An
     private static final Logger logger = LoggerFactory.getLogger(Ann_UserMenuDaoImpl.class);
 
     public List<Ann_UserMenu> listJpq(String jpq) {
-        String strWhere = " from Sema_UserMenu ";
+        String strWhere = " from Ann_UserMenu ";
         jpq = jpq.trim();
         if (StringUtils.isNotBlank(jpq)) {
             String temp = jpq.substring(0, "where".length());

@@ -34,7 +34,7 @@
                             data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
                             class="clear"> <span class="block m-t-xs"><strong
                             class="font-bold">VPS平台</strong></span> <span
-                            class="text-muted text-xs block">${user.name}<b
+                            class="text-muted text-xs block">${user.userName}<b
                             class="caret"></b></span>
 							</span>
                     </a>
@@ -52,7 +52,7 @@
                 </li>
                 <!-- 左侧菜单 -->
 
-                [@menuTree custId=user.custId base=base/]
+                [@menuTree userId=user.userId base=base/]
 
             </ul>
         </div>
@@ -447,7 +447,7 @@
             </div>
             <div class="right">
                 <div class="author-name">
-                    ${user.custName} <small class="chat-date"> 11:24 </small>
+                    ${user.userName} <small class="chat-date"> 11:24 </small>
                 </div>
                 <div class="chat-message">
                     <!-- 你好，请问H+有帮助文档吗？ -->
@@ -465,7 +465,7 @@
             </div>
             <div class="right">
                 <div class="author-name">
-                    ${user.custName} <small class="chat-date"> 11:24 </small>
+                    ${user.userName} <small class="chat-date"> 11:24 </small>
                 </div>
                 <div class="chat-message">
                     <!--   那除了帮助文档还提供什么样的服务？ -->
@@ -474,7 +474,7 @@
             </div>
             <div class="left">
                 <div class="author-name">
-                    ${user.custName} <small class="chat-date"> 08:45 </small>
+                    ${user.userName} <small class="chat-date"> 08:45 </small>
                 </div>
                 <div class="chat-message active">
                     <!--

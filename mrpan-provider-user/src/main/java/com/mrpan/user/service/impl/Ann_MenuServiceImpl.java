@@ -67,7 +67,7 @@ public class Ann_MenuServiceImpl implements Ann_MenuService {
         if (allMenus == null) {
             return;
         }
-        // 从数据库中找出属于该代理机构的菜单和该菜单节点的下一级所有菜单节点
+        // 从数据库中找出属于该用户菜单和该菜单节点的下一级所有菜单节点
         int parentId = root.getRoot().getMenuId() == null ? 0 : root.getRoot().getMenuId();
         List<AnnMenuTree> subMenuTrees = new ArrayList<AnnMenuTree>();
         logger.info("############菜单 -> " + root.getRoot().getMenuName());
@@ -104,6 +104,36 @@ public class Ann_MenuServiceImpl implements Ann_MenuService {
     }
 
     public AnnMenuTree getMenuTree(Integer userId) {
-        return null;
+        AnnMenuTree menuTree = new AnnMenuTree();
+        Ann_Menu root = new Ann_Menu();
+        root.setMenuId(0);
+        menuTree.setRoot(root);
+        try {
+            List<Ann_Menu> allMenus = this.ann_MenuDao.listJpq("visible=1");
+            Set<Integer> userMenuIds = new HashSet<Integer>();
+            String where = "where userId=" + userId;
+            List<Ann_UserMenu> listUserMenu = this.ann_UserMenuDao.listJpq(where);
+            for (Ann_UserMenu cm : listUserMenu) {
+                userMenuIds.add(cm.getMenuId());
+            }
+            buildMenuTree(menuTree, allMenus, userMenuIds);
+            for (AnnMenuTree tree : menuTree.getChilds()) {
+                logger.info("   -" + tree.getRoot().getMenuName());// 一级菜单
+                if (tree.getChilds() != null) {
+                    for (AnnMenuTree t : tree.getChilds()) {
+                        logger.info("         -" + t.getRoot().getMenuName());// 二级菜单
+                        List<AnnMenuTree> subs = t.getChilds();
+                        if (subs != null) {
+                            for (AnnMenuTree sub : subs) {
+                                logger.info("                    -" + sub.getRoot().getMenuName());// 三级菜单
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            logger.info("getMenuTree===" + ex.getMessage());
+        }
+        return menuTree;
     }
 }
