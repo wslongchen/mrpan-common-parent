@@ -38,7 +38,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>mrpan-web-vpsplatform</finalName>
+        <finalName>vpsplatform</finalName>
         <resources>
             <resource>
                 <targetPath>${project.build.directory}/classes</targetPath>
@@ -64,7 +64,7 @@
                     </webApp>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8081</port>
+                            <port>8080</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
