@@ -5,8 +5,13 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
+<<<<<<< Updated upstream:mrpan-web-vpnplatform/src/main/webapp/WEB-INF/web.xml
       classpath:spring-context-vpnplatform.xml
       classpath:spring-servlet-vpnplatform.xml
+=======
+      classpath:spring-context-vpsplatform.xml
+      classpath:spring-servlet-vpsplatform.xml
+>>>>>>> Stashed changes:mrpan-web-vpsplatform/src/main/webapp/WEB-INF/web.xml
     </param-value>
   </context-param>
   <context-param>
