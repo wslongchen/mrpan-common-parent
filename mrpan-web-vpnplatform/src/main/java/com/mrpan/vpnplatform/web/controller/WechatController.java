@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by mrpan on 2017/1/22.
@@ -138,15 +139,20 @@ public class WechatController extends BaseController{
 
         // 文本消息
         if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_TEXT)) {
-            respContent = "您发送的是文本消息！";
+            String content=map.get("Content").toString();
+            if(content.contains("vpn") || content.contains("VPN") ||content.contains("Vpn")){
+                respContent="VPN功能开发哥哥正在积极上线～";
+            }else{
+                respContent = DialogReturn();
+            }
         }
         // 图片消息
         else if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_IMAGE)) {
-            respContent = "您发送的是图片消息！";
+            respContent = "这张黄图不错～";
         }
         // 语音消息
         else if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_VOICE)) {
-            respContent = "您发送的是语音消息！";
+            respContent = "小安安暂时还听不懂语音消息哦～";
         }
         // 视频消息
         else if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_VIDEO)) {
@@ -158,7 +164,7 @@ public class WechatController extends BaseController{
         }
         // 地理位置消息
         else if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_LOCATION)) {
-            respContent = "您发送的是地理位置消息！";
+            respContent = "小安安也不知道地理位置消息哦～";
         }
         // 链接消息
         else if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_LINK)) {
@@ -170,7 +176,7 @@ public class WechatController extends BaseController{
             String eventType = map.get("Event").toString();
             // 关注
             if (eventType.equals(MessageUtils.EVENT_TYPE_SUBSCRIBE)) {
-                respContent = "谢谢您的关注！";
+                respContent = "欢迎大大关注小安安，么么哒～";
             }
             // 取消关注
             else if (eventType.equals(MessageUtils.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -194,5 +200,44 @@ public class WechatController extends BaseController{
         // 将文本消息对象转换成xml
         respXml = MessageUtils.messageToXml(textMessage);
         return respXml;
+    }
+
+    //无聊的回复
+    public static String DialogReturn()
+    {
+        String reply = "";
+        int[] RandNum = new int[10];
+        Random r = new Random();
+        for (int i = 0; i < 10; i++)
+        {
+            RandNum[i] = r.nextInt(11);
+        }
+        for (int mess : RandNum)
+        {
+            switch (mess)
+            {
+                case 1: reply = "哎...你是不是喜欢小安安我?";
+                    break;
+                case 2: reply = "你知道吗，我可以查快递和查身份证还有天气哦...";
+                    break;
+                case 3: reply = "你知道我老大是谁吗？潘安，对就是墙角那个装B的";
+                    break;
+                case 4: reply = "我不知道你在说什么，我知道我长得帅，低调！";
+                    break;
+                case 5: reply = "阿西巴，我主人很帅的哦";
+                    break;
+                case 6: reply = "你可以回复我主人的名字哦...我不会告诉你有惊喜的";
+                    break;
+                case 7: reply = "O(∩_∩)O哈哈~，小安安的微信公众号是MrPan哦...";
+                    break;
+                case 8: reply = "有什么意见可以去我主人的网站提哦！(mrpann.com)";
+                    break;
+                case 9: reply = "别惹我，我生气起来，自己都打！";
+                    break;
+                default: reply = "我知道你喜欢小安安...么么哒(你也可以叫我说话的哦。格式：小安安 搞基 潘安 潘安是帅哥！)";
+                    break;
+            }
+        }
+        return reply;
     }
 }
