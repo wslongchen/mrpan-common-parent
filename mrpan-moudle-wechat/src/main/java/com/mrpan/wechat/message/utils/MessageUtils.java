@@ -86,7 +86,9 @@ public class MessageUtils {
 
                 protected void writeText(QuickWriter writer, String text) {
                     if (cdata) {
-                        writer.write("");
+                        writer.write("<![CDATA[");
+                        writer.write(text);
+                        writer.write("]]>");
                     } else {
                         writer.write(text);
                     }

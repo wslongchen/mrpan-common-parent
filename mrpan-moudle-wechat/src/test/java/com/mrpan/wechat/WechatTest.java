@@ -2,11 +2,13 @@ package com.mrpan.wechat;
 
 import com.mrpan.wechat.auth.AuthConn;
 import com.mrpan.wechat.bean.menu.Menu;
+import com.mrpan.wechat.bean.req.TextMessage;
 import com.mrpan.wechat.bean.results.AccessToken;
 import com.mrpan.wechat.bean.results.JsonResult;
 import com.mrpan.wechat.bean.results.utils.ConvertJsonUtils;
 import com.mrpan.wechat.menu.MenuConn;
 import com.mrpan.wechat.message.MessageConn;
+import com.mrpan.wechat.message.utils.MessageUtils;
 import com.mrpan.wechat.user.UserConn;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +63,12 @@ public class WechatTest {
 
     @Test
     public void testMessege(){
-
+        TextMessage textMessage=new TextMessage();
+        textMessage.setContent("sss");
+        textMessage.setFromUserName("sddd");
+        textMessage.setMsgType("text");
+       String ss= MessageUtils.messageToXml(textMessage);
+        System.out.println(ss);
     }
 
 }
