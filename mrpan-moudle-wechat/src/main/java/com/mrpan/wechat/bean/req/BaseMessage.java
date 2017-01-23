@@ -46,4 +46,12 @@ public abstract class BaseMessage {
 	 * @return
 	 */
 	public abstract String SetMsgType();
+
+	public String getMsgType() {
+		return MsgType;
+	}
+
+	public void setMsgType(String msgType) {
+		MsgType = msgType;
+	}
 }

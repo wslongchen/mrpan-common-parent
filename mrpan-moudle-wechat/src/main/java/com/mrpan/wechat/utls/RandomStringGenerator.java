@@ -13,7 +13,7 @@ public class RandomStringGenerator {
     /**
      * 获取一定长度的随机字符串
      * @param length 指定字符串长度
-     * @param base    在该范围内生成随机数
+     * @param length    在该范围内生成随机数
      * @return 一定长度的字符串
      */
     public static String getRandomStringByLength(int length) {

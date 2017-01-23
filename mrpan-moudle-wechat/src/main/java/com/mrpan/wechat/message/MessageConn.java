@@ -38,6 +38,8 @@ public class MessageConn extends Connection {
 	private String addTemplate="https://api.weixin.qq.com/cgi-bin/template/api_add_template";
 	//发送模板消息
 	private String sendTemplatemsg="https://api.weixin.qq.com/cgi-bin/message/template/send";
+
+	private String getAutoReply="https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info";
 	
 	
 	/**

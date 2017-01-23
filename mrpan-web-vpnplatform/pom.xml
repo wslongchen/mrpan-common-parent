@@ -18,6 +18,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
@@ -29,6 +34,10 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>mrpan-common-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>mrpan-moudle-wechat</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
@@ -74,7 +83,7 @@
                     </webApp>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8080</port>
+                            <port>80</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>

@@ -51,7 +51,7 @@ public class AesException extends Exception {
 		return code;
 	}
 
-	AesException(int code) {
+	public AesException(int code) {
 		super(getMessage(code));
 		this.code = code;
 	}
