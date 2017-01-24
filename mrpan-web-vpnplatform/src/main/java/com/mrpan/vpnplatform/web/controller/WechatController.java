@@ -1,9 +1,14 @@
 package com.mrpan.vpnplatform.web.controller;
 
+import com.mrpan.common.core.utils.FourObject;
+import com.mrpan.common.core.utils.MyMD5Util;
 import com.mrpan.common.core.utils.RenderKit;
 import com.mrpan.common.core.utils.WebUtil;
 import com.mrpan.user.bean.Ann_User;
+import com.mrpan.user.bean.Ann_Vpn;
 import com.mrpan.user.bean.Ann_Wechat;
+import com.mrpan.user.service.Ann_UserService;
+import com.mrpan.user.service.Ann_VpnService;
 import com.mrpan.user.service.Ann_WechatService;
 import com.mrpan.vpnplatform.web.BaseController;
 import com.mrpan.vpnplatform.web.WebConstant;
@@ -11,8 +16,10 @@ import com.mrpan.wechat.auth.AuthConn;
 import com.mrpan.wechat.bean.req.TextMessage;
 import com.mrpan.wechat.bean.results.AccessToken;
 import com.mrpan.wechat.bean.results.JsonResult;
+import com.mrpan.wechat.bean.results.WechatResult;
 import com.mrpan.wechat.bean.results.utils.ConvertJsonUtils;
 import com.mrpan.wechat.bean.results.utils.SHA1;
+import com.mrpan.wechat.bean.user.WeixinUser;
 import com.mrpan.wechat.message.MessageConn;
 import com.mrpan.wechat.message.encrypt.AesException;
 import com.mrpan.wechat.message.encrypt.MessageEncrpt;
@@ -38,9 +45,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Random;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 /**
  * Created by mrpan on 2017/1/22.
@@ -58,6 +64,10 @@ public class WechatController extends BaseController{
     private MessageConn messageConn=null;
     @Autowired
     private Ann_WechatService ann_WechatService;
+    @Autowired
+    private Ann_UserService ann_UserService;
+    @Autowired
+    private Ann_VpnService ann_VpnService;
 
     @RequestMapping(value = "/index",method=RequestMethod.GET)
     public void index(HttpServletRequest request, HttpServletResponse response) {
@@ -94,7 +104,8 @@ public class WechatController extends BaseController{
         }
         String result= messageConn.getCallBackIp(accessToke);
         if(ConvertJsonUtils.jsonToJavaObject(result,JsonResult.class).getErrcode()!=0){
-            accessToke=messageConn.getAccessToken(ann_wechat.getOpenId(),ann_wechat.getSecret());
+            String r=messageConn.getAccessToken(ann_wechat.getOpenId(),ann_wechat.getSecret());
+            accessToke=ConvertJsonUtils.jsonToJavaObject(r, AccessToken.class).getAccess_token();
             this.ann_WechatService.updateAccessToken(accessToke);
         }
     }
@@ -141,8 +152,36 @@ public class WechatController extends BaseController{
         if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_TEXT)) {
             String content=map.get("Content").toString();
             if(content.contains("vpn") || content.contains("VPN") ||content.contains("Vpn")){
-                respContent="VPN功能开发哥哥正在积极上线～";
-            }else{
+                respContent="回复：申请vpn，即可通知小安安为您开通vpn线路哟~";
+            }else if(content.contains("申请vpn") || content.contains("申请VPN") ||content.contains("申请Vpn")||
+                    content.contains("vpn申请") || content.contains("VPN申请") ||content.contains("Vpn申请")){
+                try{
+                    List<FourObject> mapWhere=new ArrayList<FourObject>();
+                    mapWhere.add(new FourObject("wechatId",fromUserName));
+                    List<Ann_Vpn> vpns=this.ann_VpnService.listVpnInfoList(mapWhere);
+                    if(vpns.size()>0){
+                        Ann_Vpn vpn=vpns.get(0);
+                        int status=vpn.getStatus();
+                        if(status==0){
+                            respContent="您已经申请，小安安会尽快处理的哟~";
+                        }else{
+                            respContent="您已经申请，小安安会尽快处理的哟~";
+                        }
+
+                    }else{
+                        respContent="已收到您的申请，请回复您的常用邮箱好让小安安及时通知进度哟~";
+                        Ann_Vpn vpn=new Ann_Vpn();
+                        vpn.setCreateDate(new Date());
+                        vpn.setWechatId(fromUserName);
+                        vpn.setStatus(0);
+                        this.ann_VpnService.addVpnInfo(vpn);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+            else{
                 respContent = DialogReturn();
             }
         }
@@ -195,6 +234,7 @@ public class WechatController extends BaseController{
                 // TODO 处理菜单点击事件
             }
         }
+        checkLogin(fromUserName);
         // 设置文本消息的内容
         textMessage.setContent(respContent);
         // 将文本消息对象转换成xml
@@ -239,5 +279,30 @@ public class WechatController extends BaseController{
             }
         }
         return reply;
+    }
+
+    private void checkLogin(String fromUserName){
+        try {
+            List<FourObject> mapWhere=new ArrayList<FourObject>();
+            mapWhere.add(new FourObject("openId",fromUserName));
+            List<Ann_User> users=this.ann_UserService.listUsers(mapWhere);
+            if(users.size()==0){
+                Ann_User user=new Ann_User();
+                user.setUserName(fromUserName);
+                user.setDescription("微信用户,unionid:"+fromUserName);
+                user.setPassword(MyMD5Util.getEncryptedPwd("888888"));
+                user.setUserStatus(0);
+                user.setCreateDate(new Date());
+                user.setLoginCount(0);
+                user.setIsVisible(1);
+                user.setAuditStatus("0");
+                user.setOpenId(fromUserName);
+                user.setEnabled(0);
+                this.ann_UserService.addUser(user);
+
+            }
+        }catch (Exception e){
+            logger.debug("error reply :"+e);
+        }
     }
 }

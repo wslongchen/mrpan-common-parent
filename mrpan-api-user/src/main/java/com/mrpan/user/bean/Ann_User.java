@@ -56,6 +56,8 @@ public class Ann_User implements Serializable {
     private String openId="";
     @Column(name="Enabled")
     private Integer enabled;
+    @Column(name="email")
+    private String email;
     @Column(name ="SortCode")
     private Integer sortCode;
     @Column(name ="Description")
@@ -175,6 +177,14 @@ public class Ann_User implements Serializable {
 
     public Integer getIsVisible() {
         return isVisible;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setIsVisible(Integer isVisible) {

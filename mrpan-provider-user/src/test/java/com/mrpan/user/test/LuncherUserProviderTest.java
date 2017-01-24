@@ -22,7 +22,7 @@ public class LuncherUserProviderTest {
                 System.out.print(string + ",");
             Ann_User u=new Ann_User();
             u.setUserName("longchen");
-            u.setPassword(MyMD5Util.getEncryptedPwd("123456"));
+            u.setPassword(MyMD5Util.getEncryptedPwd("888888"));
             u.setAuditStatus("1");
             Ann_UserService userService = (Ann_UserService)context.getBean("ann_UserService");
             userService.addUser(u);
