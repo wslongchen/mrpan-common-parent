@@ -1,6 +1,7 @@
 package com.mrpan.user.bean;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ann_wechat")
-public class Ann_Vpn {
+public class Ann_Vpn implements Serializable{
     @Id
     @Column(name = "VpnId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

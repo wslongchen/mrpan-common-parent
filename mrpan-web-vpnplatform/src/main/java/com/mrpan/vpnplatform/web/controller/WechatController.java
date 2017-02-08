@@ -203,7 +203,8 @@ public class WechatController extends BaseController{
                     }else{
                         respContent=">_<，不要逗我，请输入正确的邮箱好咩～";
                     }
-
+                }else{
+                    respContent=">_<，不要逗我，你已经绑定邮箱了好咩～";
                 }
             }else{
                 respContent = DialogReturn();
@@ -314,6 +315,7 @@ public class WechatController extends BaseController{
         try {
             List<FourObject> mapWhere=new ArrayList<FourObject>();
             mapWhere.add(new FourObject("openId",fromUserName));
+            mapWhere.add(new FourObject("userName",fromUserName));
             List<Ann_User> users=this.ann_UserService.listUsers(mapWhere);
             if(users.size()==0){
                 Ann_User user=new Ann_User();
