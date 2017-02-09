@@ -13,6 +13,12 @@ public interface Ann_WechatService {
     public Ann_Wechat getWechatConfig();
 
     /**
+     * 获取digitalocean配置
+     * @return
+     */
+    public Ann_Wechat getDigitaloceanConfig(String id);
+
+    /**
      * 更新token
      * @param token
      */

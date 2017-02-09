@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by mrpan on 2017/1/23.
  */
 @Entity
-@Table(name="ann_wechat")
+@Table(name="ann_vpn")
 public class Ann_Vpn implements Serializable{
     @Id
     @Column(name = "VpnId")

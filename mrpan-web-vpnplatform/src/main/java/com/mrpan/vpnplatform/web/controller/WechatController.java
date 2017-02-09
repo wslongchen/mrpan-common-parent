@@ -1,12 +1,11 @@
 package com.mrpan.vpnplatform.web.controller;
 
-import com.mrpan.common.core.utils.FourObject;
-import com.mrpan.common.core.utils.MyMD5Util;
-import com.mrpan.common.core.utils.RenderKit;
-import com.mrpan.common.core.utils.WebUtil;
+import com.mrpan.common.core.utils.*;
+import com.mrpan.user.bean.Ann_Cash;
 import com.mrpan.user.bean.Ann_User;
 import com.mrpan.user.bean.Ann_Vpn;
 import com.mrpan.user.bean.Ann_Wechat;
+import com.mrpan.user.service.Ann_CashService;
 import com.mrpan.user.service.Ann_UserService;
 import com.mrpan.user.service.Ann_VpnService;
 import com.mrpan.user.service.Ann_WechatService;
@@ -14,6 +13,7 @@ import com.mrpan.vpnplatform.web.BaseController;
 import com.mrpan.vpnplatform.web.WebConstant;
 import com.mrpan.vpnplatform.web.utils.MailUtils;
 import com.mrpan.wechat.auth.AuthConn;
+import com.mrpan.wechat.bean.report.InterAnlyse;
 import com.mrpan.wechat.bean.req.TextMessage;
 import com.mrpan.wechat.bean.results.AccessToken;
 import com.mrpan.wechat.bean.results.JsonResult;
@@ -71,6 +71,8 @@ public class WechatController extends BaseController{
     private Ann_UserService ann_UserService;
     @Autowired
     private Ann_VpnService ann_VpnService;
+    @Autowired
+    private Ann_CashService ann_CashService;
 
     @RequestMapping(value = "/index",method=RequestMethod.GET)
     public void index(HttpServletRequest request, HttpServletResponse response) {
@@ -165,9 +167,18 @@ public class WechatController extends BaseController{
                             Ann_Vpn vpn=vpns.get(0);
                             int status=vpn.getStatus();
                             if(status==0){
-                                respContent="您已经申请，小安安会尽快处理的哟~";
+                                if(!checkEmail(fromUserName)){
+                                    respContent="已收到您的申请，请回复格式：绑定邮箱+您的常用邮箱地址(绑定邮箱100432@qq.com)，好让小安安及时通知您的申请进度哟~";
+                                }else{
+                                    respContent="您已经申请，小安安会尽快处理的哟~";
+                                }
+
                             }else{
-                                respContent="您已经申请，小安安会尽快处理的哟~";
+                                if(!checkEmail(fromUserName)){
+                                    respContent="已收到您的申请，请回复格式：绑定邮箱+您的常用邮箱地址(绑定邮箱100432@qq.com)，好让小安安及时通知您的申请进度哟~";
+                                }else{
+                                    respContent="您已经申请，小安安会尽快处理的哟~";
+                                }
                             }
 
                         }else{
@@ -193,18 +204,94 @@ public class WechatController extends BaseController{
                     Pattern regex = Pattern.compile(check);
                     Matcher matcher = regex.matcher(email);
                     if(matcher.matches()){
-                        this.ann_UserService.updateEmailByOpenId(email,fromUserName);
                         respContent="棒棒哒，绑定成功～";
                         StringBuilder builder=new StringBuilder();
                         builder.append("<div class=\"rich_media_content \" id=\"js_content\">\n" +
                                 "                        <p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg\" style=\"line-height: 1.6; width: 100%; height: auto;\" data-ratio=\"0.6671875\" data-w=\"1280\"  /></p><p><strong>一枚有态度的码农。</strong></p><p><strong><br  /></strong></p><p><strong><br  /></strong></p><p><br  /></p><blockquote><p style=\"text-align: center;\">我想发几条微博记录着自己的生活</p><p style=\"text-align: center;\">总是一个人过着</p><p style=\"text-align: center;\">没事就听一听安静的歌</p><p style=\"text-align: center;\">在每一个孤独的夜晚</p><p style=\"text-align: center;\">总是喝多了酒</p><p style=\"text-align: center;\">有时候也会想起远方的老朋友</p><p style=\"text-align: center;\">也经常怀疑到底什么样的爱情能永垂不朽</p><p style=\"text-align: center;\">我不想同大部分的男人一样过着平庸的生活</p><p style=\"text-align: center;\">不会在碌碌无为中度过</p><p style=\"text-align: center;\">一个人穿过拥挤的人流</p><p style=\"text-align: center;\">错过了就别回头</p><p style=\"text-align: right;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--<em>贰佰</em><br  /></p></blockquote><p><br  /></p><p><br  /></p><p><br  /></p><p><br  /></p><p>Tips：本公众号暂时提供VPN以及其他娱乐性服务，详情可戳小安安公众号。</p><p><br  /></p><p><strong>联系方式</strong>：</p><p>&nbsp; &nbsp; <strong>email</strong>：1049058427@qq.com</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微博</strong>：拯救世界的小安安<br  /></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微信</strong>：wslongchen<br  /></p><p><br  /></p>\n" +
                                 "                    </div>");
                         MailUtils.send("邮箱绑定成功！",builder.toString(),new String[]{email},null);
+                        this.ann_UserService.updateEmailByOpenId(email,fromUserName);
                     }else{
                         respContent=">_<，不要逗我，请输入正确的邮箱好咩～";
                     }
                 }else{
                     respContent=">_<，不要逗我，你已经绑定邮箱了好咩～";
+                }
+            }else if(content.contains("资产")|| content.contains("资金")|| content.contains("赞助列表")|| content.contains("查账")){
+                List<FourObject> mapWhere=new ArrayList<FourObject>();
+                mapWhere.add(new FourObject("openId",fromUserName));
+                mapWhere.add(new FourObject("userName",fromUserName));
+                List<Ann_User> users=this.ann_UserService.listUsers(mapWhere);
+                if(users.size()>0){
+                    Ann_User user=users.get(0);
+                    Integer role=user.getRoleId();
+                    if(role!=null){
+                        List<FourObject> strWhere=new ArrayList<FourObject>();
+                        switch (role){
+                            case 0:
+                                String result=content.replace("资产","").replace("资金","").replace("赞助列表","").replace("查账","").trim();
+                                if(StringUtils.isNotBlank(result)) {
+                                String[] args=result.split(",");
+                                if(args.length>1){
+                                    Ann_Cash cash=new Ann_Cash();
+                                    cash.setCreateDate(new Date());
+                                    String direction=args[0];
+                                    if(direction.equals("收入")){
+                                        cash.setDirection(1);
+                                    }else if(direction.equals("支出")){
+                                        cash.setDirection(0);
+                                    }
+                                    double amount=Double.parseDouble(args[1]);
+                                    cash.setAmount(amount);
+                                    cash.setType(Integer.parseInt(args[2]));
+                                    cash.setDescription(args[3]);
+                                    cash.setRemark(args[4]);
+                                    this.ann_CashService.addCash(cash);
+                                    respContent="添加记录成功。";
+                                }
+                                }else{
+                                    List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
+                                    StringBuffer sb=new StringBuffer();
+                                    sb.append("近期收入明细记录：\n");
+                                    if(cashs.size()>0){
+                                        for(Ann_Cash cash:cashs){
+                                            String direction=cash.getDirection()==1?"收入":"支出";
+                                            String type=cash.getType()==0?"工资":"其它";
+                                            sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                        }
+                                    }
+                                    respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（主人专属查账～）";
+                                }
+                                break;
+                            case 1:
+                                List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
+                                StringBuffer sb=new StringBuffer();
+                                sb.append("你家二货近期收入明细记录：\n");
+                                if(cashs.size()>0){
+                                    for(Ann_Cash cash:cashs){
+                                        String direction=cash.getDirection()==1?"收入":"支出";
+                                        String type=cash.getType()==0?"工资":"其它";
+                                        sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                    }
+                                }
+                                respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（小男人专属查账～）";
+                                break;
+                            default:
+                                strWhere.add(new FourObject("type","1"));
+                                List<Ann_Cash> cashs2=this.ann_CashService.listCashs(strWhere);
+                                StringBuffer sb2=new StringBuffer();
+                                sb2.append("小安安近期收入明细记录：\n");
+                                if(cashs2.size()>0){
+                                    for(Ann_Cash cash:cashs2){
+                                        String direction=cash.getDirection()==1?"收入":"支出";
+                                        String type=cash.getType()==0?"工资":"其它";
+                                        sb2.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                    }
+                                }
+                                respContent=sb2.toString()+"你也可以回复资产、资金、赞助列表直接查询。";
+                                break;
+                        }
+                    }
                 }
             }else{
                 respContent = DialogReturn();

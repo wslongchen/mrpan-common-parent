@@ -28,7 +28,7 @@ public class MailUtils {
                 HtmlEmail simpleEmail = new HtmlEmail();
                 simpleEmail.setHostName(hostName);
                 simpleEmail.setAuthentication(sendMailAddress, mailPassword);
-                simpleEmail.setSmtpPort(25);
+                simpleEmail.setSmtpPort(465);
                 simpleEmail.setFrom(sendMailAddress, "小安安");
                 simpleEmail.setSubject("utf-8");
                 simpleEmail.setMsg(content);
@@ -53,7 +53,7 @@ public class MailUtils {
                 }
             }
         } catch (EmailException e) {
-            //  e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
