@@ -12,10 +12,10 @@
 	<dubbo:provider timeout="${dubbo.provider.timeout}"/>
 
 <!-- 	<dubbo:provider timeout="${dubbo.provider.timeout}" filter="annFilter" /> -->
-	<!-- 对外暴露的接口 -->
-	<!-- 1.系统角色接口 -->
+
 	<dubbo:service interface="com.mrpan.user.service.Ann_UserService" ref="ann_UserService" />
 	<dubbo:service interface="com.mrpan.user.service.Ann_MenuService" ref="ann_MenuService" />
 	<dubbo:service interface="com.mrpan.user.service.Ann_WechatService" ref="ann_WechatService" />
 	<dubbo:service interface="com.mrpan.user.service.Ann_VpnService" ref="ann_VpnService" />
+	<dubbo:service interface="com.mrpan.user.service.Ann_CashService" ref="ann_CashService"/>
 </beans>

@@ -327,6 +327,7 @@ public class WechatController extends BaseController{
                 user.setLoginCount(0);
                 user.setIsVisible(1);
                 user.setAuditStatus("0");
+                user.setRoleId(2);
                 user.setOpenId(fromUserName);
                 user.setEnabled(0);
                 this.ann_UserService.addUser(user);
