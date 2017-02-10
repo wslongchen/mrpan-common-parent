@@ -9,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ann_vpn")
-public class Ann_Vpn implements Serializable{
+public class Ann_Vpn implements Serializable {
     @Id
     @Column(name = "VpnId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

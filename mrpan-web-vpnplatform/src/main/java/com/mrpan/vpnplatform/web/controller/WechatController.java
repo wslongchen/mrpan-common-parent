@@ -2,6 +2,9 @@ package com.mrpan.vpnplatform.web.controller;
 
 import com.mrpan.common.core.utils.*;
 import com.mrpan.user.bean.Ann_Cash;
+import com.mrpan.common.core.utils.FourObject;
+import com.mrpan.common.core.utils.MyMD5Util;
+import com.mrpan.common.core.utils.RenderKit;
 import com.mrpan.user.bean.Ann_User;
 import com.mrpan.user.bean.Ann_Vpn;
 import com.mrpan.user.bean.Ann_Wechat;
@@ -10,31 +13,22 @@ import com.mrpan.user.service.Ann_UserService;
 import com.mrpan.user.service.Ann_VpnService;
 import com.mrpan.user.service.Ann_WechatService;
 import com.mrpan.vpnplatform.web.BaseController;
-import com.mrpan.vpnplatform.web.WebConstant;
 import com.mrpan.vpnplatform.web.utils.MailUtils;
 import com.mrpan.wechat.auth.AuthConn;
-import com.mrpan.wechat.bean.report.InterAnlyse;
 import com.mrpan.wechat.bean.req.TextMessage;
+import com.mrpan.wechat.bean.resp.NewsMessage;
+import com.mrpan.wechat.bean.resp.bean.Articles;
+import com.mrpan.wechat.bean.resp.bean.Item;
 import com.mrpan.wechat.bean.results.AccessToken;
 import com.mrpan.wechat.bean.results.JsonResult;
-import com.mrpan.wechat.bean.results.WechatResult;
 import com.mrpan.wechat.bean.results.utils.ConvertJsonUtils;
 import com.mrpan.wechat.bean.results.utils.SHA1;
-import com.mrpan.wechat.bean.user.WeixinUser;
 import com.mrpan.wechat.message.MessageConn;
-import com.mrpan.wechat.message.encrypt.AesException;
-import com.mrpan.wechat.message.encrypt.MessageEncrpt;
-import com.mrpan.wechat.message.encrypt.XMLMessageParse;
 import com.mrpan.wechat.message.utils.MessageUtils;
 import com.mrpan.wechat.user.UserConn;
 import com.mrpan.wechat.utls.Util;
 import com.mrpan.wechat.utls.XMLParser;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.aspectj.bridge.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +39,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -99,6 +91,23 @@ public class WechatController extends BaseController{
         }
     }
 
+    @RequestMapping(value = "/email",method=RequestMethod.GET)
+    public void email(HttpServletRequest request, HttpServletResponse response) {
+
+//            RenderKit.renderText(response,ann_wechat.getToken());
+        try {
+            StringBuilder builder=new StringBuilder();
+            builder.append("<div class=\"rich_media_content \" id=\"js_content\">\n" +
+                    "                        <p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg\" style=\"line-height: 1.6; width: 100%; height: auto;\" data-ratio=\"0.6671875\" data-w=\"1280\"  /></p><p><strong>一枚有态度的码农。</strong></p><p><strong><br  /></strong></p><p><strong><br  /></strong></p><p><br  /></p><blockquote><p style=\"text-align: center;\">我想发几条微博记录着自己的生活</p><p style=\"text-align: center;\">总是一个人过着</p><p style=\"text-align: center;\">没事就听一听安静的歌</p><p style=\"text-align: center;\">在每一个孤独的夜晚</p><p style=\"text-align: center;\">总是喝多了酒</p><p style=\"text-align: center;\">有时候也会想起远方的老朋友</p><p style=\"text-align: center;\">也经常怀疑到底什么样的爱情能永垂不朽</p><p style=\"text-align: center;\">我不想同大部分的男人一样过着平庸的生活</p><p style=\"text-align: center;\">不会在碌碌无为中度过</p><p style=\"text-align: center;\">一个人穿过拥挤的人流</p><p style=\"text-align: center;\">错过了就别回头</p><p style=\"text-align: right;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--<em>贰佰</em><br  /></p></blockquote><p><br  /></p><p><br  /></p><p><br  /></p><p><br  /></p><p>Tips：本公众号暂时提供VPN以及其他娱乐性服务，详情可戳小安安公众号。</p><p><br  /></p><p><strong>联系方式</strong>：</p><p>&nbsp; &nbsp; <strong>email</strong>：1049058427@qq.com</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微博</strong>：拯救世界的小安安<br  /></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微信</strong>：wslongchen<br  /></p><p><br  /></p>\n" +
+                    "                    </div>");
+            MailUtils.send("邮箱绑定成功！",builder.toString(),"1049058427@qq.com",null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+        }
+    }
+
     private void checkToken(Ann_Wechat ann_wechat){
 
         if(!StringUtils.isNotBlank(accessToke)){
@@ -129,13 +138,12 @@ public class WechatController extends BaseController{
                 Map<String,Object> map= XMLParser.getMapFromXML(xml);
 
                 String reply=this.doReply(map);
-                logger.debug("sssssssssssssssssssssss:"+reply);
+                logger.info("sssssssssssssssssssssss:"+reply);
                 RenderKit.renderXml(response,reply);
-
             }
         }catch (Exception e) {
             e.printStackTrace();
-            logger.debug(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -145,14 +153,7 @@ public class WechatController extends BaseController{
         String toUserName=map.get("ToUserName").toString();
         String msgType=map.get("MsgType").toString();
         logger.debug("wechant POST XML PASE:"+fromUserName+","+toUserName+","+msgType);
-        // 回复文本消息
-        TextMessage textMessage = new TextMessage();
-        textMessage.setToUserName(fromUserName);
-        textMessage.setFromUserName(toUserName);
-        textMessage.setCreateTime((int) System.currentTimeMillis());
         String respContent="";
-        textMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_TEXT);
-
         // 文本消息
         if (msgType.equals(MessageUtils.REQ_MESSAGE_TYPE_TEXT)) {
             String content=map.get("Content").toString();
@@ -161,7 +162,7 @@ public class WechatController extends BaseController{
                         content.contains("vpn申请") || content.contains("VPN申请") ||content.contains("Vpn申请")){
                     try{
                         List<FourObject> mapWhere=new ArrayList<FourObject>();
-                        mapWhere.add(new FourObject("wechatId",fromUserName));
+                        mapWhere.add(new FourObject("WechatId","'"+fromUserName+"'"));
                         List<Ann_Vpn> vpns=this.ann_VpnService.listVpnInfoList(mapWhere);
                         if(vpns.size()>0){
                             Ann_Vpn vpn=vpns.get(0);
@@ -187,11 +188,13 @@ public class WechatController extends BaseController{
                             vpn.setCreateDate(new Date());
                             vpn.setWechatId(fromUserName);
                             vpn.setStatus(0);
-                            MailUtils.send("新的VPN申请","来自微信用户："+fromUserName+"，请尽快处理",new String[]{"1049058427@qq.com"},null);
+                            //MailUtils.send("新的VPN申请","来自微信用户："+fromUserName+"，请尽快处理",new String[]{"1049058427@qq.com"},null);
                             this.ann_VpnService.addVpnInfo(vpn);
                         }
                     }catch (Exception e){
                         e.printStackTrace();
+                        logger.info("error reply :"+e.getMessage());
+
                     }
 
                 }else{
@@ -205,11 +208,6 @@ public class WechatController extends BaseController{
                     Matcher matcher = regex.matcher(email);
                     if(matcher.matches()){
                         respContent="棒棒哒，绑定成功～";
-                        StringBuilder builder=new StringBuilder();
-                        builder.append("<div class=\"rich_media_content \" id=\"js_content\">\n" +
-                                "                        <p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg\" style=\"line-height: 1.6; width: 100%; height: auto;\" data-ratio=\"0.6671875\" data-w=\"1280\"  /></p><p><strong>一枚有态度的码农。</strong></p><p><strong><br  /></strong></p><p><strong><br  /></strong></p><p><br  /></p><blockquote><p style=\"text-align: center;\">我想发几条微博记录着自己的生活</p><p style=\"text-align: center;\">总是一个人过着</p><p style=\"text-align: center;\">没事就听一听安静的歌</p><p style=\"text-align: center;\">在每一个孤独的夜晚</p><p style=\"text-align: center;\">总是喝多了酒</p><p style=\"text-align: center;\">有时候也会想起远方的老朋友</p><p style=\"text-align: center;\">也经常怀疑到底什么样的爱情能永垂不朽</p><p style=\"text-align: center;\">我不想同大部分的男人一样过着平庸的生活</p><p style=\"text-align: center;\">不会在碌碌无为中度过</p><p style=\"text-align: center;\">一个人穿过拥挤的人流</p><p style=\"text-align: center;\">错过了就别回头</p><p style=\"text-align: right;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--<em>贰佰</em><br  /></p></blockquote><p><br  /></p><p><br  /></p><p><br  /></p><p><br  /></p><p>Tips：本公众号暂时提供VPN以及其他娱乐性服务，详情可戳小安安公众号。</p><p><br  /></p><p><strong>联系方式</strong>：</p><p>&nbsp; &nbsp; <strong>email</strong>：1049058427@qq.com</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微博</strong>：拯救世界的小安安<br  /></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微信</strong>：wslongchen<br  /></p><p><br  /></p>\n" +
-                                "                    </div>");
-                        MailUtils.send("邮箱绑定成功！",builder.toString(),new String[]{email},null);
                         this.ann_UserService.updateEmailByOpenId(email,fromUserName);
                     }else{
                         respContent=">_<，不要逗我，请输入正确的邮箱好咩～";
@@ -347,8 +345,30 @@ public class WechatController extends BaseController{
             }
         }
         checkLogin(fromUserName);
+        // 回复文本消息
+        TextMessage textMessage = new TextMessage();
+        textMessage.setToUserName(fromUserName);
+        textMessage.setFromUserName(toUserName);
+        textMessage.setCreateTime((int) System.currentTimeMillis());
+
+        textMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_TEXT);
         // 设置文本消息的内容
         textMessage.setContent(respContent);
+        NewsMessage newsMessage=new NewsMessage();
+        newsMessage.setArticleCount(1);
+        newsMessage.setToUserName(fromUserName);
+        newsMessage.setFromUserName(toUserName);
+        Articles articles=new Articles();
+        List<Item> items=new ArrayList<Item>();
+        Item item=new Item();
+        item.setDescription("这是一条测试图文消息");
+        item.setPicUrl("");
+        item.setTitle("测试");
+        item.setUrl("");
+        items.add(item);
+        articles.setList(items);
+        newsMessage.setArticles(articles);
+        newsMessage.setMsgType();
         // 将文本消息对象转换成xml
         respXml = MessageUtils.messageToXml(textMessage);
         return respXml;
@@ -421,7 +441,7 @@ public class WechatController extends BaseController{
 
             }
         }catch (Exception e){
-            logger.debug("error reply :"+e);
+            logger.info("error reply :"+e.getMessage());
         }
     }
 
@@ -431,7 +451,7 @@ public class WechatController extends BaseController{
     private boolean checkEmail(String fromUSerName){
         try{
             List<FourObject> maWhere=new ArrayList<FourObject>();
-            maWhere.add(new FourObject("openId",fromUSerName));
+            maWhere.add(new FourObject("openId","'"+fromUSerName+"'"));
             List<Ann_User> users=this.ann_UserService.listUsers(maWhere);
             if(users.size()>0){
                 Ann_User user=users.get(0);
@@ -441,7 +461,7 @@ public class WechatController extends BaseController{
                 }
             }
         }catch (Exception e){
-            logger.debug("something about user eamil");
+            logger.info("something about user eamil"+e.getMessage());
         }
         return false;
     }
