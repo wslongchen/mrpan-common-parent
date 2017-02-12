@@ -6,24 +6,14 @@ import com.mrpan.wechat.bean.req.VideoMessage;
 import com.mrpan.wechat.bean.req.VoiceMessage;
 import com.mrpan.wechat.bean.resp.MusicMessage;
 import com.mrpan.wechat.bean.resp.NewsMessage;
-import com.mrpan.wechat.bean.resp.bean.Articles;
-import com.mrpan.wechat.bean.resp.bean.Item;
-import com.mrpan.wechat.bean.resp.bean.Text;
+import com.mrpan.wechat.bean.resp.bean.Article;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mrpan on 2017/1/23.
@@ -162,7 +152,7 @@ public class MessageUtils {
      */
     public static String messageToXml(NewsMessage newsMessage) {
         xstream.alias("xml", newsMessage.getClass());
-        xstream.alias("item", new Item().getClass());
+        xstream.alias("item", new Article().getClass());
         return xstream.toXML(newsMessage);
     }
 }

@@ -17,7 +17,7 @@ import com.mrpan.vpnplatform.web.utils.MailUtils;
 import com.mrpan.wechat.auth.AuthConn;
 import com.mrpan.wechat.bean.req.TextMessage;
 import com.mrpan.wechat.bean.resp.NewsMessage;
-import com.mrpan.wechat.bean.resp.bean.Articles;
+import com.mrpan.wechat.bean.resp.bean.Article;
 import com.mrpan.wechat.bean.resp.bean.Item;
 import com.mrpan.wechat.bean.results.AccessToken;
 import com.mrpan.wechat.bean.results.JsonResult;
@@ -385,16 +385,15 @@ public class WechatController extends BaseController{
         newsMessage.setToUserName(fromUserName);
        // newsMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_NEWS);
         newsMessage.setFromUserName(toUserName);
-        Articles articles=new Articles();
-        List<Item> items=new ArrayList<Item>();
-        Item item=new Item();
-        item.setDescription("欢迎大大关注小安安～么么哒！");
-        item.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg");
-        item.setTitle("小安安（MrPan）");
-        item.setUrl("https://mp.weixin.qq.com/s?__biz=MzAwMDA1MDY4MQ==&mid=2451160455&idx=1&sn=492141b0366b07f44170a7bb3f17a047&chksm=8d03c911ba744007be156c533fb2c44d0b8afc07ab4dfab644a5d00770ee424df25f1575a2b3&mpshare=1&scene=1&srcid=0212ffe8ArfDzflxneCoEF2g&key=b721df98f799e3252a62cf6e794206d01288cad515d0f04b0de27cabc6b3bacb2fdfb1d3724b8a27e2562afb2ecd462d9f905989a97d7ed563d1199a8f574570fcc69432c85eb6cd9c6dac508e64f682&ascene=0&uin=ODAzODAwMDYw&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.3+build(16D32)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=2Q5gV7LoY6Qo%2BcNca3%2BDcOrcyvx8y25uW9JNGHQ8myg4FmIJ9ge9lBNFqrGzTJy5");
-        items.add(item);
-        articles.setList(items);
-        newsMessage.setArticles(articles);
+
+        List<Article> items=new ArrayList<Article>();
+        Article articles=new Article();
+        articles.setDescription("欢迎大大关注小安安～么么哒！");
+        articles.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg");
+        articles.setTitle("小安安（MrPan）");
+        articles.setUrl("https://mp.weixin.qq.com/s?__biz=MzAwMDA1MDY4MQ==&mid=2451160455&idx=1&sn=492141b0366b07f44170a7bb3f17a047&chksm=8d03c911ba744007be156c533fb2c44d0b8afc07ab4dfab644a5d00770ee424df25f1575a2b3&mpshare=1&scene=1&srcid=0212ffe8ArfDzflxneCoEF2g&key=b721df98f799e3252a62cf6e794206d01288cad515d0f04b0de27cabc6b3bacb2fdfb1d3724b8a27e2562afb2ecd462d9f905989a97d7ed563d1199a8f574570fcc69432c85eb6cd9c6dac508e64f682&ascene=0&uin=ODAzODAwMDYw&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.3+build(16D32)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=2Q5gV7LoY6Qo%2BcNca3%2BDcOrcyvx8y25uW9JNGHQ8myg4FmIJ9ge9lBNFqrGzTJy5");
+        items.add(articles);
+        newsMessage.setArticles(items);
         newsMessage.setMsgType();
         // 将文本消息对象转换成xml
         switch (flag){

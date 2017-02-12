@@ -72,8 +72,8 @@ public class MessageHandler {
 		if(news!=null){
 		  XStream xs = XStreamFactory.init(true);
 		  xs.alias("xml",NewsMessage.class);
-		  xs.addImplicitCollection(Articles.class,"list", "item", Item.class);
-		  xs.aliasField("Articles", NewsMessage.class,"articles");
+		  xs.addImplicitCollection(Article.class,"list", "item", Item.class);
+		  xs.aliasField("Article", NewsMessage.class,"articles");
 		  result = xs.toXML(news);
 		}
 		return result;

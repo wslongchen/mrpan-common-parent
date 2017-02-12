@@ -1,14 +1,16 @@
 package com.mrpan.wechat.bean.resp;
 
 
-import com.mrpan.wechat.bean.resp.bean.Articles;
+import com.mrpan.wechat.bean.resp.bean.Article;
+
+import java.util.List;
 
 /**
  * 回复图文消息
  */
 public class NewsMessage extends BaseMessage {
 	private int ArticleCount; // 图文消息个数，限制为10条以内
-	private Articles articles;
+	private List<Article> Articles;
 
 	@Override
 	public String setMsgType() {
@@ -23,12 +25,11 @@ public class NewsMessage extends BaseMessage {
 		ArticleCount = articleCount;
 	}
 
-	public Articles getArticles() {
-		return articles;
+	public List<Article> getArticles() {
+		return Articles;
 	}
 
-	public void setArticles(Articles articles) {
-		this.articles = articles;
+	public void setArticles(List<Article> articles) {
+		this.Articles = articles;
 	}
-
 }
