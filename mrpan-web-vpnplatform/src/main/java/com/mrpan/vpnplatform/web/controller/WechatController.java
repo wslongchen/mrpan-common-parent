@@ -100,12 +100,13 @@ public class WechatController extends BaseController{
             builder.append("<div class=\"rich_media_content \" id=\"js_content\">\n" +
                     "                        <p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg\" style=\"line-height: 1.6; width: 100%; height: auto;\" data-ratio=\"0.6671875\" data-w=\"1280\"  /></p><p><strong>一枚有态度的码农。</strong></p><p><strong><br  /></strong></p><p><strong><br  /></strong></p><p><br  /></p><blockquote><p style=\"text-align: center;\">我想发几条微博记录着自己的生活</p><p style=\"text-align: center;\">总是一个人过着</p><p style=\"text-align: center;\">没事就听一听安静的歌</p><p style=\"text-align: center;\">在每一个孤独的夜晚</p><p style=\"text-align: center;\">总是喝多了酒</p><p style=\"text-align: center;\">有时候也会想起远方的老朋友</p><p style=\"text-align: center;\">也经常怀疑到底什么样的爱情能永垂不朽</p><p style=\"text-align: center;\">我不想同大部分的男人一样过着平庸的生活</p><p style=\"text-align: center;\">不会在碌碌无为中度过</p><p style=\"text-align: center;\">一个人穿过拥挤的人流</p><p style=\"text-align: center;\">错过了就别回头</p><p style=\"text-align: right;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--<em>贰佰</em><br  /></p></blockquote><p><br  /></p><p><br  /></p><p><br  /></p><p><br  /></p><p>Tips：本公众号暂时提供VPN以及其他娱乐性服务，详情可戳小安安公众号。</p><p><br  /></p><p><strong>联系方式</strong>：</p><p>&nbsp; &nbsp; <strong>email</strong>：1049058427@qq.com</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微博</strong>：拯救世界的小安安<br  /></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微信</strong>：wslongchen<br  /></p><p><br  /></p>\n" +
                     "                    </div>");
-            MailUtils.send("邮箱绑定成功！",builder.toString(),"1049058427@qq.com",null);
+            MailUtils.send("小安安",builder.toString(),new String[]{"1049058427@qq.com"},null);
 
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug(e.getMessage());
         }
+        RenderKit.renderText(response,"好慢");
     }
 
     private void checkToken(Ann_Wechat ann_wechat){
@@ -149,6 +150,7 @@ public class WechatController extends BaseController{
 
     private String doReply( Map<String,Object> map){
         String respXml="";
+        int flag=1;
         String fromUserName=map.get("FromUserName").toString();
         String toUserName=map.get("ToUserName").toString();
         String msgType=map.get("MsgType").toString();
@@ -197,6 +199,28 @@ public class WechatController extends BaseController{
 
                     }
 
+                }else if(content.contains("我的VPN") || content.contains("我的vpn") || content.contains("我的Vpn")){
+                    try {
+                        List<FourObject> mapWhere=new ArrayList<FourObject>();
+                        mapWhere.add(new FourObject("wechatId",fromUserName));
+                        List<Ann_Vpn> vpns=this.ann_VpnService.listVpnInfoList(mapWhere);
+                        if(vpns.size()>0){
+                            Ann_Vpn vpn=vpns.get(0);
+                            int status=vpn.getStatus();
+                            if(status==0){
+                                respContent="正在为您准备专线vpn中，小安安会尽快处理的哟~";
+                            }else{
+                                respContent="您的vpn线路地址："+vpn.getAddress()+"\n端口："+vpn.getPort()+"\n密码："+vpn.getPassword()
+                                +"\n备注："+vpn.getRemark()+"（请下载shawdowsocks客户端使用，小白请自行google哟)";
+                            }
+                        }else {
+                            respContent="回复：申请vpn，即可通知小安安为您开通vpn线路哟~";
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else if(content.contains("我的VPN") && content.contains("我的vpn") && content.contains("我的Vpn")){
+                    respContent="免费vpn地址：138.197.221.2，端口：1704，密码：mrpan，加密方式：aes-256-cfb。\n（请下载shawdowsocks客户端使用，小白请自行google哟）";
                 }else{
                     respContent="回复：申请vpn，即可通知小安安为您开通vpn线路哟~";
                 }
@@ -325,6 +349,7 @@ public class WechatController extends BaseController{
             String eventType = map.get("Event").toString();
             // 关注
             if (eventType.equals(MessageUtils.EVENT_TYPE_SUBSCRIBE)) {
+                flag=2;
                 respContent = "欢迎大大关注小安安，么么哒～";
             }
             // 取消关注
@@ -356,21 +381,32 @@ public class WechatController extends BaseController{
         textMessage.setContent(respContent);
         NewsMessage newsMessage=new NewsMessage();
         newsMessage.setArticleCount(1);
+        newsMessage.setCreateTime((int) System.currentTimeMillis());
         newsMessage.setToUserName(fromUserName);
+       // newsMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_NEWS);
         newsMessage.setFromUserName(toUserName);
         Articles articles=new Articles();
         List<Item> items=new ArrayList<Item>();
         Item item=new Item();
-        item.setDescription("这是一条测试图文消息");
-        item.setPicUrl("");
-        item.setTitle("测试");
-        item.setUrl("");
+        item.setDescription("欢迎大大关注小安安～么么哒！");
+        item.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg");
+        item.setTitle("小安安（MrPan）");
+        item.setUrl("https://mp.weixin.qq.com/s?__biz=MzAwMDA1MDY4MQ==&mid=2451160455&idx=1&sn=492141b0366b07f44170a7bb3f17a047&chksm=8d03c911ba744007be156c533fb2c44d0b8afc07ab4dfab644a5d00770ee424df25f1575a2b3&mpshare=1&scene=1&srcid=0212ffe8ArfDzflxneCoEF2g&key=b721df98f799e3252a62cf6e794206d01288cad515d0f04b0de27cabc6b3bacb2fdfb1d3724b8a27e2562afb2ecd462d9f905989a97d7ed563d1199a8f574570fcc69432c85eb6cd9c6dac508e64f682&ascene=0&uin=ODAzODAwMDYw&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.3+build(16D32)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=2Q5gV7LoY6Qo%2BcNca3%2BDcOrcyvx8y25uW9JNGHQ8myg4FmIJ9ge9lBNFqrGzTJy5");
         items.add(item);
         articles.setList(items);
         newsMessage.setArticles(articles);
         newsMessage.setMsgType();
         // 将文本消息对象转换成xml
-        respXml = MessageUtils.messageToXml(textMessage);
+        switch (flag){
+            case 1://文字
+                respXml = MessageUtils.messageToXml(textMessage);
+                break;
+            case 2://图片
+                respXml = MessageUtils.messageToXml(newsMessage);
+                break;
+            default:
+                break;
+        }
         return respXml;
     }
 

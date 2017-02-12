@@ -6,6 +6,8 @@ import com.mrpan.wechat.bean.req.VideoMessage;
 import com.mrpan.wechat.bean.req.VoiceMessage;
 import com.mrpan.wechat.bean.resp.MusicMessage;
 import com.mrpan.wechat.bean.resp.NewsMessage;
+import com.mrpan.wechat.bean.resp.bean.Articles;
+import com.mrpan.wechat.bean.resp.bean.Item;
 import com.mrpan.wechat.bean.resp.bean.Text;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
@@ -157,10 +159,10 @@ public class MessageUtils {
      *
      * @param newsMessage 图文消息对象
      * @return xml
-     *//*
+     */
     public static String messageToXml(NewsMessage newsMessage) {
         xstream.alias("xml", newsMessage.getClass());
-        xstream.alias("item", new Article().getClass());
+        xstream.alias("item", new Item().getClass());
         return xstream.toXML(newsMessage);
-    }*/
+    }
 }
