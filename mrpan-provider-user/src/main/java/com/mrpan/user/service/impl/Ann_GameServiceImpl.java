@@ -5,9 +5,9 @@ import com.mrpan.common.core.utils.Pager;
 import com.mrpan.common.core.utils.QueryKit;
 import com.mrpan.common.core.utils.SystemContext;
 import com.mrpan.user.bean.Ann_Cash;
-import com.mrpan.user.bean.Ann_Vpn;
-import com.mrpan.user.dao.Ann_CashDao;
-import com.mrpan.user.service.Ann_CashService;
+import com.mrpan.user.bean.Ann_Game;
+import com.mrpan.user.dao.Ann_GameDao;
+import com.mrpan.user.service.Ann_GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +17,21 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by mrpan on 2017/2/9.
+ * Created by mrpan on 2017/2/13.
  */
-@Component("ann_CashService")
-public class Ann_CashServiceImpl implements Ann_CashService {
+@Component("ann_GameService")
+public class Ann_GameServiceImpl implements Ann_GameService {
     private static final Logger logger = LoggerFactory
-            .getLogger(Ann_VpnServiceImpl.class);
+            .getLogger(Ann_GameServiceImpl.class);
 
     @Autowired
-    private Ann_CashDao ann_CashDao;
+    private Ann_GameDao ann_GameDao;
 
-    public List<Ann_Cash> listCashs( List<FourObject> mapWhere) {
+    public List<Ann_Game> listGames(List<FourObject> mapWhere) {
         String jpq= null;
         try {
             jpq = QueryKit.createQuerySqlByFour(mapWhere);
-            List<Ann_Cash> list=this.ann_CashDao.listJpq(jpq);
+            List<Ann_Game> list=this.ann_GameDao.listJpq(jpq);
             if(list.size()>0){
                 return list;
             }
@@ -41,15 +41,15 @@ public class Ann_CashServiceImpl implements Ann_CashService {
         return Collections.emptyList();
     }
 
-    public Pager<Ann_Cash> findCashs(Integer pageNo, Integer pageSize,List<FourObject> mapWhere) {
+    public Pager<Ann_Game> findGames(Integer pageNo, Integer pageSize, List<FourObject> mapWhere) {
         try {
             SystemContext.setPageNo(pageNo);
             SystemContext.setPageSize(pageSize);
             SystemContext.setOrder("createDate Desc");
             String jpq = QueryKit.createQuerySqlByFour(mapWhere);
-            return this.ann_CashDao.findCash(jpq);
+            return this.ann_GameDao.findGames(jpq);
         } catch (Exception e) {
-            logger.error("failed to pager findCashs with Criteria[" + mapWhere + "] " + e.getMessage(), e);
+            logger.error("failed to pager findGames with Criteria[" + mapWhere + "] " + e.getMessage(), e);
         } finally {
             SystemContext.removePageNo();
             SystemContext.removePageSize();
@@ -58,7 +58,11 @@ public class Ann_CashServiceImpl implements Ann_CashService {
         return null;
     }
 
-    public Ann_Cash addCash(Ann_Cash cash) {
-        return this.ann_CashDao.add(cash);
+    public Ann_Game addGame(Ann_Game game) {
+        return ann_GameDao.add(game);
+    }
+
+    public void updateGame(Ann_Game game) {
+        ann_GameDao.update(game);
     }
 }

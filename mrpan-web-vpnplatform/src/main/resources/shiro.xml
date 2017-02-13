@@ -27,13 +27,11 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/wechat/** = anon
-				/login= anon
-				/authImage = anon
-				/unauth = anon
-				/logout = anon
+				/game/** = anon
 				/resources/** = anon
+				/login= anon
 				/** = authc
-				/wechant/** = anon
+
 			</value>
 		</property>
 		<property name="filters">

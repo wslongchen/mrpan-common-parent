@@ -14,7 +14,8 @@
 	<context:component-scan base-package="com.mrpan.vpnplatform.web.controller" />
 
 	<!--<mvc:resources mapping="/hplus/**" location="/hplus/" />-->
-
+	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/" />
+	<mvc:resources mapping="/resources/img/**" location="/WEB-INF/resources/img/" />
 	<mvc:interceptors>
 		<bean class="com.mrpan.vpnplatform.web.interceptor.SystemInterceptor" />
 	</mvc:interceptors>

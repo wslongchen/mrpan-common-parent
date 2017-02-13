@@ -59,11 +59,11 @@ public class MailUtils {
                     email.setSmtpPort(25);
 
                     email.addTo(mailAddress[i]); //接收方
-                    //email.send();
+                    email.send();
                 }
             }
 
-            Properties props = new Properties();
+           /* Properties props = new Properties();
 
             // 开启debug调试
             props.setProperty("mail.debug", "true");
@@ -93,7 +93,7 @@ public class MailUtils {
             transport.connect("smtp.qq.com",465, "1007310431@qq.com", "ofhxoqffgzerbdei");
 
             transport.sendMessage(msg, new Address[] { new InternetAddress("1049058427@qq.com") });
-            transport.close();
+            transport.close();*/
         } catch (Exception e) {
             e.printStackTrace();
         }

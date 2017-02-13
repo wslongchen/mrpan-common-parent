@@ -91,24 +91,6 @@ public class WechatController extends BaseController{
         }
     }
 
-    @RequestMapping(value = "/email",method=RequestMethod.GET)
-    public void email(HttpServletRequest request, HttpServletResponse response) {
-
-//            RenderKit.renderText(response,ann_wechat.getToken());
-        try {
-            StringBuilder builder=new StringBuilder();
-            builder.append("<div class=\"rich_media_content \" id=\"js_content\">\n" +
-                    "                        <p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg\" style=\"line-height: 1.6; width: 100%; height: auto;\" data-ratio=\"0.6671875\" data-w=\"1280\"  /></p><p><strong>一枚有态度的码农。</strong></p><p><strong><br  /></strong></p><p><strong><br  /></strong></p><p><br  /></p><blockquote><p style=\"text-align: center;\">我想发几条微博记录着自己的生活</p><p style=\"text-align: center;\">总是一个人过着</p><p style=\"text-align: center;\">没事就听一听安静的歌</p><p style=\"text-align: center;\">在每一个孤独的夜晚</p><p style=\"text-align: center;\">总是喝多了酒</p><p style=\"text-align: center;\">有时候也会想起远方的老朋友</p><p style=\"text-align: center;\">也经常怀疑到底什么样的爱情能永垂不朽</p><p style=\"text-align: center;\">我不想同大部分的男人一样过着平庸的生活</p><p style=\"text-align: center;\">不会在碌碌无为中度过</p><p style=\"text-align: center;\">一个人穿过拥挤的人流</p><p style=\"text-align: center;\">错过了就别回头</p><p style=\"text-align: right;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--<em>贰佰</em><br  /></p></blockquote><p><br  /></p><p><br  /></p><p><br  /></p><p><br  /></p><p>Tips：本公众号暂时提供VPN以及其他娱乐性服务，详情可戳小安安公众号。</p><p><br  /></p><p><strong>联系方式</strong>：</p><p>&nbsp; &nbsp; <strong>email</strong>：1049058427@qq.com</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微博</strong>：拯救世界的小安安<br  /></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微信</strong>：wslongchen<br  /></p><p><br  /></p>\n" +
-                    "                    </div>");
-            MailUtils.send("小安安",builder.toString(),new String[]{"1049058427@qq.com"},null);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-        }
-        RenderKit.renderText(response,"好慢");
-    }
-
     private void checkToken(Ann_Wechat ann_wechat){
 
         if(!StringUtils.isNotBlank(accessToke)){
@@ -164,7 +146,7 @@ public class WechatController extends BaseController{
                         content.contains("vpn申请") || content.contains("VPN申请") ||content.contains("Vpn申请")){
                     try{
                         List<FourObject> mapWhere=new ArrayList<FourObject>();
-                        mapWhere.add(new FourObject("WechatId","'"+fromUserName+"'"));
+                        mapWhere.add(new FourObject("wechatId","'"+fromUserName+"'"));
                         List<Ann_Vpn> vpns=this.ann_VpnService.listVpnInfoList(mapWhere);
                         if(vpns.size()>0){
                             Ann_Vpn vpn=vpns.get(0);
@@ -190,7 +172,7 @@ public class WechatController extends BaseController{
                             vpn.setCreateDate(new Date());
                             vpn.setWechatId(fromUserName);
                             vpn.setStatus(0);
-                            //MailUtils.send("新的VPN申请","来自微信用户："+fromUserName+"，请尽快处理",new String[]{"1049058427@qq.com"},null);
+                            MailUtils.send("新的VPN申请","来自微信用户："+fromUserName+"，请尽快处理",new String[]{"1049058427@qq.com"},null);
                             this.ann_VpnService.addVpnInfo(vpn);
                         }
                     }catch (Exception e){
@@ -219,7 +201,7 @@ public class WechatController extends BaseController{
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-                }else if(content.contains("我的VPN") && content.contains("我的vpn") && content.contains("我的Vpn")){
+                }else if(content.contains("免费VPN") || content.contains("免费vpn") || content.contains("免费Vpn")){
                     respContent="免费vpn地址：138.197.221.2，端口：1704，密码：mrpan，加密方式：aes-256-cfb。\n（请下载shawdowsocks客户端使用，小白请自行google哟）";
                 }else{
                     respContent="回复：申请vpn，即可通知小安安为您开通vpn线路哟~";
@@ -233,6 +215,11 @@ public class WechatController extends BaseController{
                     if(matcher.matches()){
                         respContent="棒棒哒，绑定成功～";
                         this.ann_UserService.updateEmailByOpenId(email,fromUserName);
+                        StringBuilder builder=new StringBuilder();
+                        builder.append("<div class=\"rich_media_content \" id=\"js_content\">\n" +
+                                "                        <p><img src=\"http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg\" style=\"line-height: 1.6; width: 100%; height: auto;\" data-ratio=\"0.6671875\" data-w=\"1280\"  /></p><p><strong>一枚有态度的码农。</strong></p><p><strong><br  /></strong></p><p><strong><br  /></strong></p><p><br  /></p><blockquote><p style=\"text-align: center;\">我想发几条微博记录着自己的生活</p><p style=\"text-align: center;\">总是一个人过着</p><p style=\"text-align: center;\">没事就听一听安静的歌</p><p style=\"text-align: center;\">在每一个孤独的夜晚</p><p style=\"text-align: center;\">总是喝多了酒</p><p style=\"text-align: center;\">有时候也会想起远方的老朋友</p><p style=\"text-align: center;\">也经常怀疑到底什么样的爱情能永垂不朽</p><p style=\"text-align: center;\">我不想同大部分的男人一样过着平庸的生活</p><p style=\"text-align: center;\">不会在碌碌无为中度过</p><p style=\"text-align: center;\">一个人穿过拥挤的人流</p><p style=\"text-align: center;\">错过了就别回头</p><p style=\"text-align: right;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--<em>贰佰</em><br  /></p></blockquote><p><br  /></p><p><br  /></p><p><br  /></p><p><br  /></p><p>Tips：本公众号暂时提供VPN以及其他娱乐性服务，详情可戳小安安公众号。</p><p><br  /></p><p><strong>联系方式</strong>：</p><p>&nbsp; &nbsp; <strong>email</strong>：1049058427@qq.com</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微博</strong>：拯救世界的小安安<br  /></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>微信</strong>：wslongchen<br  /></p><p><br  /></p>\n" +
+                                "                    </div>");
+                        MailUtils.send("邮箱绑定成功",builder.toString(),new String[]{email},null);
                     }else{
                         respContent=">_<，不要逗我，请输入正确的邮箱好咩～";
                     }
