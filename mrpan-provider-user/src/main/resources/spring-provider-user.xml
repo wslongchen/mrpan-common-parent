@@ -18,4 +18,6 @@
 	<dubbo:service interface="com.mrpan.user.service.Ann_WechatService" ref="ann_WechatService" />
 	<dubbo:service interface="com.mrpan.user.service.Ann_VpnService" ref="ann_VpnService" />
 	<dubbo:service interface="com.mrpan.user.service.Ann_CashService" ref="ann_CashService"/>
+	<dubbo:service interface="com.mrpan.user.service.Ann_GameService" ref="ann_GameService"/>
+	<dubbo:service interface="com.mrpan.user.service.Ann_BikeService" ref="ann_BikeService"/>
 </beans>

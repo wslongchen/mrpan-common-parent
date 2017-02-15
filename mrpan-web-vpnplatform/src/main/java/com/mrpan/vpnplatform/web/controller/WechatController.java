@@ -1,17 +1,11 @@
 package com.mrpan.vpnplatform.web.controller;
 
 import com.mrpan.common.core.utils.*;
-import com.mrpan.user.bean.Ann_Cash;
+import com.mrpan.user.bean.*;
 import com.mrpan.common.core.utils.FourObject;
 import com.mrpan.common.core.utils.MyMD5Util;
 import com.mrpan.common.core.utils.RenderKit;
-import com.mrpan.user.bean.Ann_User;
-import com.mrpan.user.bean.Ann_Vpn;
-import com.mrpan.user.bean.Ann_Wechat;
-import com.mrpan.user.service.Ann_CashService;
-import com.mrpan.user.service.Ann_UserService;
-import com.mrpan.user.service.Ann_VpnService;
-import com.mrpan.user.service.Ann_WechatService;
+import com.mrpan.user.service.*;
 import com.mrpan.vpnplatform.web.BaseController;
 import com.mrpan.vpnplatform.web.utils.MailUtils;
 import com.mrpan.wechat.auth.AuthConn;
@@ -36,6 +30,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import sun.io.ByteToCharISO2022KR;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +60,8 @@ public class WechatController extends BaseController{
     private Ann_VpnService ann_VpnService;
     @Autowired
     private Ann_CashService ann_CashService;
+    @Autowired
+    private Ann_BikeService ann_BikeService;
 
     @RequestMapping(value = "/index",method=RequestMethod.GET)
     public void index(HttpServletRequest request, HttpServletResponse response) {
@@ -146,7 +143,7 @@ public class WechatController extends BaseController{
                         content.contains("vpn申请") || content.contains("VPN申请") ||content.contains("Vpn申请")){
                     try{
                         List<FourObject> mapWhere=new ArrayList<FourObject>();
-                        mapWhere.add(new FourObject("wechatId","'"+fromUserName+"'"));
+                        mapWhere.add(new FourObject("wechatId",fromUserName));
                         List<Ann_Vpn> vpns=this.ann_VpnService.listVpnInfoList(mapWhere);
                         if(vpns.size()>0){
                             Ann_Vpn vpn=vpns.get(0);
@@ -202,7 +199,7 @@ public class WechatController extends BaseController{
                         e.printStackTrace();
                     }
                 }else if(content.contains("免费VPN") || content.contains("免费vpn") || content.contains("免费Vpn")){
-                    respContent="免费vpn地址：138.197.221.2，端口：1704，密码：mrpan，加密方式：aes-256-cfb。\n（请下载shawdowsocks客户端使用，小白请自行google哟）";
+                    respContent="免费vpn地址：138.197.221.2，端口：1706，密码：mrpan，加密方式：aes-256-cfb。\n（请下载shawdowsocks客户端使用，小白请自行google哟）";
                 }else{
                     respContent="回复：申请vpn，即可通知小安安为您开通vpn线路哟~";
                 }
@@ -300,6 +297,46 @@ public class WechatController extends BaseController{
                                 respContent=sb2.toString()+"你也可以回复资产、资金、赞助列表直接查询。";
                                 break;
                         }
+                    }
+                }
+            }else if(content.contains("车牌") || content.contains("ofo") || content.contains("OfO") || content.contains("ofO") || content.contains("Ofo")){
+                if(content.contains("添加车牌")){
+                    String str=content.replace("添加车牌","").trim();
+                    String [] infos=str.split("#");
+                    if(infos.length>1){
+                       List<FourObject> mapWhere=new ArrayList<FourObject>();
+                        mapWhere.add(new FourObject("cardNo",infos[0]));
+                        List<Ann_Bike> bikes=this.ann_BikeService.listBikes(mapWhere);
+                        if(bikes.size()>0){
+                            respContent="该车牌号已经有了哦~~~嘻嘻嘻嘻嘻嘻";
+                        }else{
+
+                            try{
+                                Ann_Bike bike=new Ann_Bike();
+                                bike.setCreateId(fromUserName);
+                                bike.setCardNo(infos[0]);
+                                bike.setCarPwd(infos[1]);
+                                bike.setCreateDate(new Date());
+                                this.ann_BikeService.addBike(bike);
+                                respContent="该车牌号添加成功了哦~~~嘻嘻嘻嘻嘻嘻";
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                respContent="该车牌号添加失败了哦~~~嘻嘻嘻嘻嘻嘻";
+                            }
+
+                        }
+                    }
+                }else{
+                    String str=content.replace("车牌","").trim();
+                    List<FourObject> mapWhere=new ArrayList<FourObject>();
+                    mapWhere.add(new FourObject("cardNo",str));
+                    List<Ann_Bike> bikes=this.ann_BikeService.listBikes(mapWhere);
+                    if(bikes.size()>0){
+                        Ann_Bike bike=bikes.get(0);
+
+                        respContent="小安安成功找到车牌了哦~密码是："+bike.getCarPwd();
+                    }else{
+                        respContent="小安安没有找到车牌哎~";
                     }
                 }
             }else{
@@ -473,7 +510,7 @@ public class WechatController extends BaseController{
     private boolean checkEmail(String fromUSerName){
         try{
             List<FourObject> maWhere=new ArrayList<FourObject>();
-            maWhere.add(new FourObject("openId","'"+fromUSerName+"'"));
+            maWhere.add(new FourObject("openId",fromUSerName));
             List<Ann_User> users=this.ann_UserService.listUsers(maWhere);
             if(users.size()>0){
                 Ann_User user=users.get(0);

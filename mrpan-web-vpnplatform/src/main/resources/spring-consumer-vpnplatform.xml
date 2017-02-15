@@ -21,4 +21,6 @@
 	<dubbo:reference id="ann_WechatService" interface="com.mrpan.user.service.Ann_WechatService" />
 	<dubbo:reference id="ann_VpnService" interface="com.mrpan.user.service.Ann_VpnService" />
 	<dubbo:reference id="ann_CashService" interface="com.mrpan.user.service.Ann_CashService"/>
+	<dubbo:reference id="ann_GameService" interface="com.mrpan.user.service.Ann_GameService"/>
+	<dubbo:reference id="ann_BikeService" interface="com.mrpan.user.service.Ann_BikeService"/>
 </beans>
