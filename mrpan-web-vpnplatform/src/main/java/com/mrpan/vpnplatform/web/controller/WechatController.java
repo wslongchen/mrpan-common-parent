@@ -333,7 +333,6 @@ public class WechatController extends BaseController{
                     List<Ann_Bike> bikes=this.ann_BikeService.listBikes(mapWhere);
                     if(bikes.size()>0){
                         Ann_Bike bike=bikes.get(0);
-
                         respContent="小安安成功找到车牌了哦~密码是："+bike.getCarPwd();
                     }else{
                         respContent="小安安没有找到车牌哎~";

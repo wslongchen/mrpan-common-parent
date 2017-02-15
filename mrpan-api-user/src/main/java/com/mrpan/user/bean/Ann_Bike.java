@@ -1,6 +1,7 @@
 package com.mrpan.user.bean;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ann_bike")
-public class Ann_Bike {
+public class Ann_Bike implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
