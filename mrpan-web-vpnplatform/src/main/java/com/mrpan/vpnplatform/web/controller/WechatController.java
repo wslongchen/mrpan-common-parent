@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import sun.io.ByteToCharISO2022KR;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -130,6 +129,7 @@ public class WechatController extends BaseController{
     private String doReply( Map<String,Object> map){
         String respXml="";
         int flag=1;
+        NewsMessage newsMessage = new NewsMessage();
         String fromUserName=map.get("FromUserName").toString();
         String toUserName=map.get("ToUserName").toString();
         String msgType=map.get("MsgType").toString();
@@ -223,7 +223,7 @@ public class WechatController extends BaseController{
                 }else{
                     respContent=">_<，不要逗我，你已经绑定邮箱了好咩～";
                 }
-            }else if(content.contains("资产")|| content.contains("资金")|| content.contains("赞助列表")|| content.contains("查账")){
+            }else if(content.contains("资产")|| content.contains("资金")|| content.contains("赞助列表")|| content.contains("查账")|| content.contains("工资")){
                 List<FourObject> mapWhere=new ArrayList<FourObject>();
                 mapWhere.add(new FourObject("openId",fromUserName));
                 mapWhere.add(new FourObject("userName",fromUserName));
@@ -238,7 +238,7 @@ public class WechatController extends BaseController{
                                 String result=content.replace("资产","").replace("资金","").replace("赞助列表","").replace("查账","").trim();
                                 if(StringUtils.isNotBlank(result)) {
                                 String[] args=result.split(",");
-                                if(args.length>1){
+                                if(args.length==5){
                                     Ann_Cash cash=new Ann_Cash();
                                     cash.setCreateDate(new Date());
                                     String direction=args[0];
@@ -254,6 +254,18 @@ public class WechatController extends BaseController{
                                     cash.setRemark(args[4]);
                                     this.ann_CashService.addCash(cash);
                                     respContent="添加记录成功。";
+                                }else{
+                                    List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
+                                    StringBuffer sb=new StringBuffer();
+                                    sb.append("近期收入明细记录：\n");
+                                    if(cashs.size()>0){
+                                        for(Ann_Cash cash:cashs){
+                                            String direction=cash.getDirection()==1?"收入":"支出";
+                                            String type=cash.getType()==0?"工资":cash.getType()==1?"其他":"兼职";
+                                            sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                        }
+                                    }
+                                    respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（主人专属查账～）";
                                 }
                                 }else{
                                     List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
@@ -262,7 +274,7 @@ public class WechatController extends BaseController{
                                     if(cashs.size()>0){
                                         for(Ann_Cash cash:cashs){
                                             String direction=cash.getDirection()==1?"收入":"支出";
-                                            String type=cash.getType()==0?"工资":"其它";
+                                            String type=cash.getType()==0?"工资":cash.getType()==1?"其他":"兼职";
                                             sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
                                         }
                                     }
@@ -270,17 +282,33 @@ public class WechatController extends BaseController{
                                 }
                                 break;
                             case 1:
-                                List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
-                                StringBuffer sb=new StringBuffer();
-                                sb.append("你家二货近期收入明细记录：\n");
-                                if(cashs.size()>0){
-                                    for(Ann_Cash cash:cashs){
-                                        String direction=cash.getDirection()==1?"收入":"支出";
-                                        String type=cash.getType()==0?"工资":"其它";
-                                        sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                if(content.contains("工资")){
+                                    strWhere.add(new FourObject("type","1","<>"));
+                                    List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
+                                    StringBuffer sb=new StringBuffer();
+                                    sb.append("你家二货近期工资明细：\n");
+                                    if(cashs.size()>0){
+                                        for(Ann_Cash cash:cashs){
+                                            String direction=cash.getDirection()==1?"收入":"支出";
+                                            String type=cash.getType()==0?"工资":"其它";
+                                            sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                        }
                                     }
+                                    respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（小男人专属查账～）";
+                                }else{
+                                    strWhere.add(new FourObject("type","1"));
+                                    List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
+                                    StringBuffer sb=new StringBuffer();
+                                    sb.append("你家二货近期收入明细记录：\n");
+                                    if(cashs.size()>0){
+                                        for(Ann_Cash cash:cashs){
+                                            String direction=cash.getDirection()==1?"收入":"支出";
+                                            String type=cash.getType()==0?"工资":cash.getType()==1?"其他":"兼职";
+                                            sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                        }
+                                    }
+                                    respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（小男人专属查账～）";
                                 }
-                                respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（小男人专属查账～）";
                                 break;
                             default:
                                 strWhere.add(new FourObject("type","1"));
@@ -290,7 +318,7 @@ public class WechatController extends BaseController{
                                 if(cashs2.size()>0){
                                     for(Ann_Cash cash:cashs2){
                                         String direction=cash.getDirection()==1?"收入":"支出";
-                                        String type=cash.getType()==0?"工资":"其它";
+                                        String type=cash.getType()==0?"工资":cash.getType()==1?"其他":"兼职";
                                         sb2.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
                                     }
                                 }
@@ -338,6 +366,23 @@ public class WechatController extends BaseController{
                         respContent="小安安没有找到车牌哎~";
                     }
                 }
+            }else if(content.contains("黄金矿工")|| content.contains("游戏")){
+                flag=2;
+                newsMessage.setArticleCount(1);
+                newsMessage.setCreateTime((int) System.currentTimeMillis());
+                newsMessage.setToUserName(fromUserName);
+                // newsMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_NEWS);
+                newsMessage.setFromUserName(toUserName);
+//http://138.197.221.2/vpnplatform/resources/img/game/hjkg/t.jpg
+                List<Article> items=new ArrayList<Article>();
+                Article articles=new Article();
+                articles.setDescription("黄金矿工小游戏！");
+                articles.setPicUrl("http://138.197.221.2/vpnplatform/resources/img/game/hjkg/t.jpg");
+                articles.setTitle("黄金矿工（MrPan）");
+                articles.setUrl("http://138.197.221.2/vpnplatform/game/hjkg");
+                items.add(articles);
+                newsMessage.setArticles(items);
+                newsMessage.setMsgType();
             }else{
                 respContent = DialogReturn();
             }
@@ -374,6 +419,21 @@ public class WechatController extends BaseController{
             if (eventType.equals(MessageUtils.EVENT_TYPE_SUBSCRIBE)) {
                 flag=2;
                 respContent = "欢迎大大关注小安安，么么哒～";
+                newsMessage.setArticleCount(1);
+                newsMessage.setCreateTime((int) System.currentTimeMillis());
+                newsMessage.setToUserName(fromUserName);
+                // newsMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_NEWS);
+                newsMessage.setFromUserName(toUserName);
+
+                List<Article> items=new ArrayList<Article>();
+                Article articles=new Article();
+                articles.setDescription("欢迎大大关注小安安～么么哒！");
+                articles.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg");
+                articles.setTitle("小安安（MrPan）");
+                articles.setUrl("https://mp.weixin.qq.com/s?__biz=MzAwMDA1MDY4MQ==&mid=2451160455&idx=1&sn=492141b0366b07f44170a7bb3f17a047&chksm=8d03c911ba744007be156c533fb2c44d0b8afc07ab4dfab644a5d00770ee424df25f1575a2b3&mpshare=1&scene=1&srcid=0212ffe8ArfDzflxneCoEF2g&key=b721df98f799e3252a62cf6e794206d01288cad515d0f04b0de27cabc6b3bacb2fdfb1d3724b8a27e2562afb2ecd462d9f905989a97d7ed563d1199a8f574570fcc69432c85eb6cd9c6dac508e64f682&ascene=0&uin=ODAzODAwMDYw&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.3+build(16D32)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=2Q5gV7LoY6Qo%2BcNca3%2BDcOrcyvx8y25uW9JNGHQ8myg4FmIJ9ge9lBNFqrGzTJy5");
+                items.add(articles);
+                newsMessage.setArticles(items);
+                newsMessage.setMsgType();
             }
             // 取消关注
             else if (eventType.equals(MessageUtils.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -402,22 +462,7 @@ public class WechatController extends BaseController{
         textMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_TEXT);
         // 设置文本消息的内容
         textMessage.setContent(respContent);
-        NewsMessage newsMessage=new NewsMessage();
-        newsMessage.setArticleCount(1);
-        newsMessage.setCreateTime((int) System.currentTimeMillis());
-        newsMessage.setToUserName(fromUserName);
-       // newsMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_NEWS);
-        newsMessage.setFromUserName(toUserName);
 
-        List<Article> items=new ArrayList<Article>();
-        Article articles=new Article();
-        articles.setDescription("欢迎大大关注小安安～么么哒！");
-        articles.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg");
-        articles.setTitle("小安安（MrPan）");
-        articles.setUrl("https://mp.weixin.qq.com/s?__biz=MzAwMDA1MDY4MQ==&mid=2451160455&idx=1&sn=492141b0366b07f44170a7bb3f17a047&chksm=8d03c911ba744007be156c533fb2c44d0b8afc07ab4dfab644a5d00770ee424df25f1575a2b3&mpshare=1&scene=1&srcid=0212ffe8ArfDzflxneCoEF2g&key=b721df98f799e3252a62cf6e794206d01288cad515d0f04b0de27cabc6b3bacb2fdfb1d3724b8a27e2562afb2ecd462d9f905989a97d7ed563d1199a8f574570fcc69432c85eb6cd9c6dac508e64f682&ascene=0&uin=ODAzODAwMDYw&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.3+build(16D32)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=2Q5gV7LoY6Qo%2BcNca3%2BDcOrcyvx8y25uW9JNGHQ8myg4FmIJ9ge9lBNFqrGzTJy5");
-        items.add(articles);
-        newsMessage.setArticles(items);
-        newsMessage.setMsgType();
         // 将文本消息对象转换成xml
         switch (flag){
             case 1://文字
