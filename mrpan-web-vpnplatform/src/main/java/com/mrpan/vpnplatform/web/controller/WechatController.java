@@ -377,9 +377,9 @@ public class WechatController extends BaseController{
                 List<Article> items=new ArrayList<Article>();
                 Article articles=new Article();
                 articles.setDescription("黄金矿工小游戏！");
-                articles.setPicUrl("http://138.197.221.2/vpnplatform/resources/img/game/hjkg/t.jpg");
+                articles.setPicUrl("http://vpn.mrpann.cn/vpnplatform/resources/img/game/hjkg/t.jpg");
                 articles.setTitle("黄金矿工（MrPan）");
-                articles.setUrl("http://138.197.221.2/vpnplatform/game/hjkg");
+                articles.setUrl("http://vpn.mrpann.cn/vpnplatform/game/hjkg");
                 items.add(articles);
                 newsMessage.setArticles(items);
                 newsMessage.setMsgType();
@@ -505,7 +505,7 @@ public class WechatController extends BaseController{
                     break;
                 case 7: reply = "O(∩_∩)O哈哈~，小安安的微信公众号是MrPan哦...";
                     break;
-                case 8: reply = "有什么意见可以去我主人的网站提哦！(mrpann.com)";
+                case 8: reply = "有什么意见可以去我主人的网站提哦！(mrpann.cn)";
                     break;
                 case 9: reply = "别惹我，我生气起来，自己都打！";
                     break;
