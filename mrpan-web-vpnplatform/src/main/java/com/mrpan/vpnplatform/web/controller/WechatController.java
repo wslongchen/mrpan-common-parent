@@ -190,7 +190,7 @@ public class WechatController extends BaseController{
                                 respContent="正在为您准备专线vpn中，小安安会尽快处理的哟~";
                             }else{
                                 respContent="您的vpn线路地址："+vpn.getAddress()+"\n端口："+vpn.getPort()+"\n密码："+vpn.getPassword()
-                                +"\n备注："+vpn.getRemark()+"（请下载shawdowsocks客户端使用，小白请自行google哟)";
+                                        +"\n备注："+vpn.getRemark()+"（请下载shawdowsocks客户端使用，小白请自行google哟)";
                             }
                         }else {
                             respContent="回复：申请vpn，即可通知小安安为您开通vpn线路哟~";
@@ -237,36 +237,36 @@ public class WechatController extends BaseController{
                             case 0:
                                 String result=content.replace("资产","").replace("资金","").replace("赞助列表","").replace("查账","").trim();
                                 if(StringUtils.isNotBlank(result)) {
-                                String[] args=result.split(",");
-                                if(args.length==5){
-                                    Ann_Cash cash=new Ann_Cash();
-                                    cash.setCreateDate(new Date());
-                                    String direction=args[0];
-                                    if(direction.equals("收入")){
-                                        cash.setDirection(1);
-                                    }else if(direction.equals("支出")){
-                                        cash.setDirection(0);
-                                    }
-                                    double amount=Double.parseDouble(args[1]);
-                                    cash.setAmount(amount);
-                                    cash.setType(Integer.parseInt(args[2]));
-                                    cash.setDescription(args[3]);
-                                    cash.setRemark(args[4]);
-                                    this.ann_CashService.addCash(cash);
-                                    respContent="添加记录成功。";
-                                }else{
-                                    List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
-                                    StringBuffer sb=new StringBuffer();
-                                    sb.append("近期收入明细记录：\n");
-                                    if(cashs.size()>0){
-                                        for(Ann_Cash cash:cashs){
-                                            String direction=cash.getDirection()==1?"收入":"支出";
-                                            String type=cash.getType()==0?"工资":cash.getType()==1?"其他":"兼职";
-                                            sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                    String[] args=result.split(",");
+                                    if(args.length==5){
+                                        Ann_Cash cash=new Ann_Cash();
+                                        cash.setCreateDate(new Date());
+                                        String direction=args[0];
+                                        if(direction.equals("收入")){
+                                            cash.setDirection(1);
+                                        }else if(direction.equals("支出")){
+                                            cash.setDirection(0);
                                         }
+                                        double amount=Double.parseDouble(args[1]);
+                                        cash.setAmount(amount);
+                                        cash.setType(Integer.parseInt(args[2]));
+                                        cash.setDescription(args[3]);
+                                        cash.setRemark(args[4]);
+                                        this.ann_CashService.addCash(cash);
+                                        respContent="添加记录成功。";
+                                    }else{
+                                        List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
+                                        StringBuffer sb=new StringBuffer();
+                                        sb.append("近期收入明细记录：\n");
+                                        if(cashs.size()>0){
+                                            for(Ann_Cash cash:cashs){
+                                                String direction=cash.getDirection()==1?"收入":"支出";
+                                                String type=cash.getType()==0?"工资":cash.getType()==1?"其他":"兼职";
+                                                sb.append("日期："+TimeUtil.formatDatetime(cash.getCreateDate(),"yyyy-MM-dd")+"\n 收入/支出："+direction+"，类型："+type+"\n金额（元）："+cash.getAmount()+"\n描述："+cash.getDescription()+","+cash.getRemark()+"\n--------------\n");
+                                            }
+                                        }
+                                        respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（主人专属查账～）";
                                     }
-                                    respContent=sb.toString()+"你也可以回复资产、资金、赞助列表、查账直接查询。（主人专属查账～）";
-                                }
                                 }else{
                                     List<Ann_Cash> cashs=this.ann_CashService.listCashs(strWhere);
                                     StringBuffer sb=new StringBuffer();
@@ -332,7 +332,7 @@ public class WechatController extends BaseController{
                     String str=content.replace("添加车牌","").trim();
                     String [] infos=str.split("#");
                     if(infos.length>1){
-                       List<FourObject> mapWhere=new ArrayList<FourObject>();
+                        List<FourObject> mapWhere=new ArrayList<FourObject>();
                         mapWhere.add(new FourObject("cardNo",infos[0]));
                         List<Ann_Bike> bikes=this.ann_BikeService.listBikes(mapWhere);
                         if(bikes.size()>0){
@@ -380,6 +380,24 @@ public class WechatController extends BaseController{
                 articles.setPicUrl("http://vpn.mrpann.cn/vpnplatform/resources/img/game/hjkg/t.jpg");
                 articles.setTitle("黄金矿工（MrPan）");
                 articles.setUrl("http://vpn.mrpann.cn/vpnplatform/game/hjkg");
+                items.add(articles);
+                newsMessage.setArticles(items);
+                newsMessage.setMsgType();
+            }else if(content.contains("活动") || content.contains("感恩") || content.contains("回馈")){
+                //https://hd.faisco.cn/12882427/1/load.html?style=42
+                flag=2;
+                newsMessage.setArticleCount(1);
+                newsMessage.setCreateTime((int) System.currentTimeMillis());
+                newsMessage.setToUserName(fromUserName);
+                // newsMessage.setMsgType(MessageUtils.RESP_MESSAGE_TYPE_NEWS);
+                newsMessage.setFromUserName(toUserName);
+                //http://138.197.221.2/vpnplatform/resources/img/game/hjkg/t.jpg
+                List<Article> items=new ArrayList<Article>();
+                Article articles=new Article();
+                articles.setDescription("感恩回馈，参与送话费送流量！");
+                articles.setPicUrl("https://mmbiz.qlogo.cn/mmbiz_jpg/FyjDNpEQ9licmzYHQKaQJ2F8HayZYatJ9IY5cCEggUY4PwgVuw7yxmMvpW5PYRyFfPoz6nVic2CshTFD6RHpElRQ/0?wx_fmt=jpeg");
+                articles.setTitle("话费、流量免费送");
+                articles.setUrl("https://hd.faisco.cn/12882427/1/load.html?style=42");
                 items.add(articles);
                 newsMessage.setArticles(items);
                 newsMessage.setMsgType();
