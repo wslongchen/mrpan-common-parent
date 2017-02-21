@@ -1,0 +1,45 @@
+<html lang="zh_CN">
+<meta charset="utf-8">
+<script src="${res}/common/js/jquery.min.js?v=2.1.4"></script>
+<script src="${res}/common/js/bootstrap.min.js?v=3.3.5"></script>
+<script src="${res}/common/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="${res}/common/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${res}/common/js/plugins/layer/layer.min.js"></script>
+<script src="${res}/common/js/hplus.min.js?v=4.0.0"></script>
+<script src="${res}/common/js/contabs.min.js"></script>
+<script src="${res}/common/js/plugins/pace/pace.min.js"></script>
+<script src="${res}/common/js/content.min.js"></script>
+<script src="${res}/common/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="${res}/common/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="${res}/common/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${res}/common/js/plugins/layer/laydate/laydate.js"></script>
+<script src="${res}/common/js/plugins/artDialog/js/dialog-min.js"></script>
+<script src="${res}/common/js/plugins/artDialog/js/dialog-plus-min.js"></script>
+<script src="${res}/common/js/plugins/artDialog/js/hplus-utils.js"></script>
+<script src="${res}/common/js/plugins/fileInput/js/fileinput.min.js"></script>
+<script src="${res}/common/js/plugins/fileInput/js/fileinput_locale_zh.js"></script>
+<script src="${res}/common/js/plugins/peity/jquery.peity.min.js"></script>
+<script src="${res}/common/js/plugins/fancybox/jquery.fancybox.js"></script>
+<script src="${res}/common/js/plugins/staps/jquery.steps.min.js"></script>
+<script src="${res}/common/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+
+<!-- 图放大 jq jquery.blueimp-gallery.min.js -->
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+
+<script type="text/javascript">
+var index = parent.layer.getFrameIndex(window.name); 
+$('#cancel').click(function () {
+    swal({
+        title: "您确定要取消这条信息吗",
+        text: "取消后将无法恢复，请谨慎操作！",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确认",
+        closeOnConfirm: false
+    }, function () {
+        swal("删除成功！", "您已经永久取消了这条信息。", "success");
+        parent.layer.close(index);
+    });
+});
+</script>

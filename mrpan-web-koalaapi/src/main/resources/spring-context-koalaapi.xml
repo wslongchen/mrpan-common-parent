@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	   default-autowire="byName">
+
+	<bean id="propertyPlaceholderConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/common-dubbo.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- ehcache配置 -->
+	<bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcacheManager" />
+	</bean>
+	<bean id="ehcacheManager"
+		  class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+	</bean>
+	<!-- 应用读取Properties文件工具类 -->
+	<bean id="propertiesBean"
+		  class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:docpath.properties</value>
+			</list>
+		</property>
+		<!-- <qualifier value="main"/> -->
+	</bean>
+	<bean id="propertyUtils" class="com.mrpan.common.core.utils.PropertyUtils">
+		<property name="properties" ref="propertiesBean" />
+	</bean>
+
+	<import resource="classpath*:spring-consumer-koalaapi.xml" />
+	<import resource="classpath*:shiro.xml" />
+</beans>

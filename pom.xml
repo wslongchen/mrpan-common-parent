@@ -17,7 +17,9 @@
         <module>mrpan-moudle-quartz</module>
         <module>mrpan-common-dms</module>
         <module>mrpan-web-vpnplatform</module>
+        <module>mrpan-web-koalaapi</module>
         <module>mrpan-api-koala</module>
+        <module>mrpan-provider-koala</module>
     </modules>
     <profiles>
         <!-- Dev -->

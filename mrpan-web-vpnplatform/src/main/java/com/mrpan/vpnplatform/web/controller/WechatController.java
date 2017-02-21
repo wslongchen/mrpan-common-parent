@@ -7,6 +7,7 @@ import com.mrpan.common.core.utils.MyMD5Util;
 import com.mrpan.common.core.utils.RenderKit;
 import com.mrpan.user.service.*;
 import com.mrpan.vpnplatform.web.BaseController;
+import com.mrpan.vpnplatform.web.utils.LinuxSystemUtil;
 import com.mrpan.vpnplatform.web.utils.MailUtils;
 import com.mrpan.wechat.auth.AuthConn;
 import com.mrpan.wechat.bean.req.TextMessage;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -401,6 +403,19 @@ public class WechatController extends BaseController{
                 items.add(articles);
                 newsMessage.setArticles(items);
                 newsMessage.setMsgType();
+            }else if(content.contains("系统") || content.contains("性能") || content.contains("服务器")){
+                try {
+                    String str="CPU使用情况（%）："+ LinuxSystemUtil.getCpuInfo();
+                    int[] Info=LinuxSystemUtil.getMemInfo();
+                    str=str+"\n Memory总量:"+Info[0] +" （kb）\n Memory可用:"+Info[1]+" （kb）\n Swap总量:"+Info[2] +" （kb）\n Swap可用:"+Info[3]+" （kb）";
+                    respContent=str;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    respContent="查看系统状况出错了哟";
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    respContent="查看系统状况出错了哟";
+                }
             }else{
                 respContent = DialogReturn();
             }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html >
+<head>
+	<meta charset="UTF-8">
+	<title>VPS平台</title>
+
+	<link rel="shortcut icon" href="favicon.ico">
+	<!-- <base target="_blank"> -->
+	<script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+	<link rel="stylesheet" href="${res}/core/css/login/style.css">
+	<link rel="stylesheet" href="${res}/core/css/login/normalize.css">
+
+	<script src="${res}/core/js/crma/login/prefixfree.min.js"></script>
+</head>
+
+
+<body>
+	<div class="login-info">
+		<form  action="${base}/login" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post">
+			<div class="login wrap">
+				<div class="logo">
+					<img src="${res}/core/img/login/logo.png" width="40%">
+				</div>
+				<input type="username" class="form-control uname" id="username" name="username" placeholder="用户名">
+				<!--<input type="username" class="form-control uname" id="username" placeholder="用户名" />-->
+				<!--<input type="password" class="form-control pword m-b" id="password" placeholder="密码" />-->
+				<input type="password" name="password" id="password" class="form-control pword m-b" placeholder="密码">
+				<input type="button" value="忘了密码？" onclick="alert('暂时没开放此功能!')" />
+				<input type="submit" value="登录"  id="logining" />
+
+			</div>
+			<input type="hidden" class="form-control uname" id="usernameing"  name="usernameing"/>
+			<input type="hidden" class="form-control pword m-b" id="passwording" name="usernameing"/>
+
+		</form>
+	</div>
+</body>
+
+
+
+<script src="${res}/common/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript">
+	window.onload= function(){
+		$(document.body).append(unescape('%3Cscript%20type%3D%22text/javascript%22%20src%3D%22/vpsplatform/resources/core/js/jquery.base64.js%22%3E%3C/script%3E'));
+	}
+
+	$("#logining").on("click", function() {
+		var indexfor = unescape('%24.base64.atob%28%22JC5iYXNlNjQudXRmOGVuY29kZSA9IHRydWU7dXNlcm5hbWVpbmcudmFsKCQuYmFzZTY0LmJ0b2EodXNlcm5hbWUudmFsKCkpKTtwYXNzd29yZGluZy52YWwoJC5iYXNlNjQuYnRvYShwYXNzd29yZC52YWwoKSkpOw%3D%3D%22%2C%20true%29%3B');
+		var varing = eval(indexfor);
+
+		var username = $("#username"),
+				password = $("#password"); // 编码
+		var usernameing =  $("#usernameing"),
+				passwording = $("#passwording");
+		eval(varing);
+	});
+</script>
+
+
+</html>

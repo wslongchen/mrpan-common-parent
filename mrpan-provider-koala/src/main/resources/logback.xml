@@ -12,7 +12,7 @@
 		<Encoding>UTF-8</Encoding>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>logs/mrpan-provider-user.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>logs/mrpan-provider-koala.%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">  

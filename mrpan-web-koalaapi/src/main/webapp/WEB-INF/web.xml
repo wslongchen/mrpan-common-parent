@@ -61,7 +61,7 @@
 
   <filter>
     <filter-name>characterEncoding</filter-name>
-    <filter-class>CharacterEncodingFilter</filter-class>
+    <filter-class>com.mrpan.koalaapi.web.filter.CharacterEncodingFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>characterEncoding</filter-name>

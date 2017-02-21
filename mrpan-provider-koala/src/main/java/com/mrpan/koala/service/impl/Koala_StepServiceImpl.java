@@ -46,7 +46,7 @@ public class Koala_StepServiceImpl implements Koala_StepService {
         try {
             SystemContext.setPageNo(pageNo);
             SystemContext.setPageSize(pageSize);
-            SystemContext.setOrder("createDate Desc");
+            SystemContext.setOrder("step Desc");
             String jpq = QueryKit.createQuerySqlByFour(mapWhere);
             return this.koala_StepDao.findSteps(jpq);
         } catch (Exception e) {

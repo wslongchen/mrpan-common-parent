@@ -26,8 +26,7 @@
 		<!-- authc：该过滤器下的页面必须验证后才能访问,它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter -->
 		<property name="filterChainDefinitions">
 			<value>
-				/wechat/** = anon
-				/game/** = anon
+				/common/** = anon
 				/resources/** = anon
 				/login= anon
 				/** = authc
@@ -41,7 +40,7 @@
 			</util:map>
 		</property>
 	</bean>
-	<bean id="sysUserFilter" class="SysUserFilter" />
+	<bean id="sysUserFilter" class="com.mrpan.koalaapi.web.filter.SysUserFilter" />
 	 
 	<!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroDbRealm.java -->
 	<!-- Shiro默认会使用Servlet容器的Session,可通过sessionMode属性来指定使用Shiro原生Session -->
@@ -53,7 +52,7 @@
 	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 
-	<bean id="agentAuthRealm" class="AgentAuthRealm">
+	<bean id="agentAuthRealm" class="com.mrpan.koalaapi.web.sec.AgentAuthRealm">
 		<property name="credentialsMatcher" ref="credentialsMatcher" />
 		<property name="authorizationCachingEnabled" value="false" />
 	</bean>
@@ -75,12 +74,12 @@
 		<property name="loginUrl" value="/login" />
 	</bean>
 
-	<bean id="passwordHelper" class="PasswordHelper">
+	<bean id="passwordHelper" class="com.mrpan.koalaapi.web.sec.PasswordHelper">
 		<property name="algorithmName" value="md5" />
 		<property name="hashIterations" value="1" />
 	</bean>
 
-	<bean id="credentialsMatcher" class="CustomCredentialsMatcher">
+	<bean id="credentialsMatcher" class="com.mrpan.koalaapi.web.sec.CustomCredentialsMatcher">
 		<!-- <constructor-arg ref="cacheManager"/> <property name="hashAlgorithmName" 
 			value="md5"/> <property name="hashIterations" value="1"/> <property name="storedCredentialsHexEncoded" 
 			value="true"/> -->
