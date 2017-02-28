@@ -11,7 +11,7 @@
   		   http://www.springframework.org/schema/mvc/spring-mvc.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<dubbo:annotation />
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.mrpan.web.koalaapi.controller" />
+	<context:component-scan base-package="com.mrpan.koalaapi.web.controller" />
 
 	<!--<mvc:resources mapping="/hplus/**" location="/hplus/" />-->
 	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/" />

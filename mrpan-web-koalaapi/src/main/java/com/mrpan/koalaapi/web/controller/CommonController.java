@@ -165,7 +165,7 @@ public class CommonController extends BaseController{
     @RequestMapping(value = "/checkUser")
     public void checkUser(HttpServletRequest request, HttpServletResponse response) {
         JsonResponse result=new JsonResponse(0,"操作成功");
-        Ann_User u=new Ann_User();
+        Ann_User u=null;
         try {
             String userName=WebUtil.getParam(request,"userName","");
             List<FourObject> mapWhere=new ArrayList<FourObject>();
@@ -195,7 +195,13 @@ public class CommonController extends BaseController{
                 user.setIsVisible(0);
                 user.setRoleId(4);
                 user.setUserStatus(0);
-                u=this.ann_UserService.addUser(user);
+                this.ann_UserService.addUser(user);
+                List<FourObject> where=new ArrayList<FourObject>();
+                where.add(new FourObject("userName",username));
+                List<Ann_User> ann_users=this.ann_UserService.listUsers(where);
+                if(ann_users.size()>0){
+                    u=ann_users.get(0);
+                }
             }
 
         }catch (Exception e) {

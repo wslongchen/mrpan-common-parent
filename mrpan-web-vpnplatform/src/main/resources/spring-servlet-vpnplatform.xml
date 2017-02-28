@@ -17,7 +17,7 @@
 	<mvc:resources mapping="/resources/js/**" location="/WEB-INF/resources/js/" />
 	<mvc:resources mapping="/resources/img/**" location="/WEB-INF/resources/img/" />
 	<mvc:interceptors>
-		<bean class="SystemInterceptor" />
+		<bean class="com.mrpan.vpnplatform.web.interceptor.SystemInterceptor" />
 	</mvc:interceptors>
 
 	<!-- 视图解析器 -->
@@ -70,11 +70,11 @@
 	<!-- 控制器异常处理 -->
 	<bean id="exceptionHandlerExceptionResolver"
 		  class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" />
-	<bean class="DefaultExceptionHandler" />
+	<bean class="com.mrpan.vpnplatform.web.exception.DefaultExceptionHandler" />
 
 	<!-- 自定义标签 -->
 
-	<bean id="menuTreeDirective" class="MenuDirective" />
+	<bean id="menuTreeDirective" class="com.mrpan.vpnplatform.web.directive.MenuDirective" />
 	<!-- <bean id="operatorDirective" class="com.shby.manage.web.directive.SemaOperatorDirective" />
 	 <bean id="provinceDirective" class="com.shby.manage.web.directive.ProvinceDirective"/>
     <bean id="cityDirective" class="com.shby.manage.web.directive.CityDirective"/>

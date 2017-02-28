@@ -1,5 +1,8 @@
 package com.mrpan.koalaapi.web.controller;
 
+import com.google.gson.Gson;
+import com.mrpan.common.core.utils.JsonResponse;
+import com.mrpan.common.core.utils.RenderKit;
 import com.mrpan.koalaapi.web.WebConstant;
 import com.mrpan.user.bean.Ann_User;
 import com.mrpan.user.service.Ann_UserService;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/")
@@ -29,14 +33,17 @@ public class LoginController extends BaseController {
 	Ann_UserService ann_UserService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
+	public void login(HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("login..");
-		return "login";
+		JsonResponse result=new JsonResponse(-1,"请先登录");
+		Gson gson = new Gson();
+		RenderKit.renderJson(response, gson.toJson(result));
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String doLogin(String username, String password, HttpServletRequest request) {
+	public void doLogin(String username, String password, HttpServletRequest request, HttpServletResponse response) {
 		Subject subject = SecurityUtils.getSubject();
+		JsonResponse result=new JsonResponse(0,"登录成功");
 		UsernamePasswordToken token = new UsernamePasswordToken(username,
 				password);
 		token.setRememberMe(true);
@@ -45,7 +52,7 @@ public class LoginController extends BaseController {
 			Ann_User user = this.ann_UserService
 					.findUser(username,"");
 			if (user == null) {
-				return "login";
+				result=new JsonResponse(-1,"请先登录");
 			}
 			
 			Session session = subject.getSession();
@@ -53,21 +60,22 @@ public class LoginController extends BaseController {
 			logger.info("login the system successfully");
 		} catch (UnknownAccountException uae) {
 			logger.error("###unknown account" + uae.getMessage(), uae);
-			return "login";
+			result=new JsonResponse(-1,"登录失败");
 		} catch (IncorrectCredentialsException ice) {
 			logger.error("###incorrect Credentials" + ice.getMessage(), ice);
-			return "login";
+			result=new JsonResponse(-1,"登录失败");
 		} catch (LockedAccountException lae) {
 			logger.error("locked Account " + lae.getMessage(), lae);
-			return "login";
+			result=new JsonResponse(-1,"登录失败");
 		} catch (AuthenticationException ae) {
 			logger.error("authentication error " + ae.getMessage(), ae);
-			return "login";
+			result=new JsonResponse(-1,"登录失败");
 		} catch (Exception e) {
 			logger.error("Other Exception" + e.getMessage(), e);
-			return "500";
+			result=new JsonResponse(-1,"登录失败");
 		}
-		return "redirect:frame/main";
+		Gson gson = new Gson();
+		RenderKit.renderJson(response, gson.toJson(result));
 	}
 	
 	@RequestMapping(value = "logout")
